@@ -19,6 +19,9 @@
                class="border border-white text-white px-6 py-3 rounded-lg hover:bg-white hover:text-blue-700 transition">
                Explore Opportunities
             </a>
+            <a href="{{ route('skill-posts.index') }}" class="btn btn-primary mt-3">
+                Browse Skill Posts
+            </a>
         </div>
     </div>
 </section>
