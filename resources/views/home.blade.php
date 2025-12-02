@@ -19,8 +19,9 @@
                class="border border-white text-white px-6 py-3 rounded-lg hover:bg-white hover:text-blue-700 transition">
                Explore Opportunities
             </a>
-            <a href="{{ route('skill-posts.index') }}" class="btn btn-primary mt-3">
-                Browse Skill Posts
+            <a href="{{ route('skill-posts.index') }}" 
+               class="bg-indigo-500 text-white font-semibold px-6 py-3 rounded-lg shadow hover:bg-indigo-600 transition">
+               Browse Skill Posts
             </a>
         </div>
     </div>

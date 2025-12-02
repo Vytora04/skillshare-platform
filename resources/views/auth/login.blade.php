@@ -1,55 +1,45 @@
-@extends('layouts.app')
+@extends('layouts.auth')
 
-@section('title', 'Login - SkillShare')
+@section('title', 'Sign In - SkillShare')
 
-@section('content')
-<div class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-    <div class="max-w-md w-full space-y-8">
-        <div>
-            <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
-                Sign in to your account
-            </h2>
-            <p class="mt-2 text-center text-sm text-gray-600">
-                Or
-                <a href="{{ route('register') }}" class="font-medium text-blue-600 hover:text-blue-500">
-                    create a new account
-                </a>
-            </p>
+@section('form-content')
+<div class="glass-box px-20 relative">
+    <a href="{{ url('/') }}" style="position: absolute; top: 35px; left: 35px;" class="flex items-center gap-1 text-gray-600 hover:text-gray-900 transition">
+        <i class='bx bx-arrow-back text-xl'></i>
+        <span class="text-sm font-medium">Back</span>
+    </a>
+    <div style="padding-top: 80px; padding-bottom: 80px;">
+    <h2 class="text-4xl font-bold form-title text-center mb-10">Sign In</h2>
+    
+    <form action="#" method="POST">
+        @csrf
+        
+        <div class="input-box">
+            <i class='bx bxs-envelope'></i>
+            <input type="email" name="email" placeholder="Email" required>
         </div>
-        <form class="mt-8 space-y-6" action="#" method="POST">
-            @csrf
-            <div class="rounded-md shadow-sm -space-y-px">
-                <div>
-                    <label for="email" class="sr-only">Email address</label>
-                    <input id="email" name="email" type="email" autocomplete="email" required 
-                           class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm" 
-                           placeholder="Email address">
-                </div>
-                <div>
-                    <label for="password" class="sr-only">Password</label>
-                    <input id="password" name="password" type="password" autocomplete="current-password" required 
-                           class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm" 
-                           placeholder="Password">
-                </div>
-            </div>
-
-            <div class="flex items-center justify-between">
-                <div class="flex items-center">
-                    <input id="remember" name="remember" type="checkbox" 
-                           class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
-                    <label for="remember" class="ml-2 block text-sm text-gray-900">
-                        Remember me
-                    </label>
-                </div>
-            </div>
-
-            <div>
-                <button type="submit" 
-                        class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                    Sign in
-                </button>
-            </div>
-        </form>
+        
+        <div class="input-box">
+            <i class='bx bxs-lock-alt'></i>
+            <input type="password" name="password" placeholder="Password" required>
+        </div>
+        
+        <div class="remember-forgot">
+            <label>
+                <input type="checkbox" name="remember">
+                Remember me
+            </label>
+            <a href="#">Forgot password?</a>
+        </div>
+        
+        <button type="submit" class="btn-submit">
+            Sign In
+        </button>
+        
+        <div class="logreg-link">
+            <p>Don't have an account? <a href="{{ route('register') }}">Sign up</a></p>
+        </div>
+        </div>
     </div>
 </div>
 @endsection

@@ -1,57 +1,54 @@
-@extends('layouts.app')
+@extends('layouts.auth')
 
-@section('title', 'Register - SkillShare')
+@section('title', 'Sign Up - SkillShare')
 
-@section('content')
-<div class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-    <div class="max-w-md w-full space-y-8">
-        <div>
-            <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
-                Create your account
-            </h2>
-            <p class="mt-2 text-center text-sm text-gray-600">
-                Or
-                <a href="{{ route('login') }}" class="font-medium text-blue-600 hover:text-blue-500">
-                    sign in to your existing account
-                </a>
-            </p>
+@section('form-content')
+<div class="glass-box px-20 relative">
+    <a href="{{ url('/') }}" style="position: absolute; top: 35px; left: 35px;" class="flex items-center gap-1 text-gray-600 hover:text-gray-900 transition">
+        <i class='bx bx-arrow-back text-xl'></i>
+        <span class="text-sm font-medium">Back</span>
+    </a>
+    <div style="padding-top: 80px; padding-bottom: 80px;">
+    <h2 class="text-4xl font-bold form-title text-center mb-10">Sign Up</h2>
+    
+    <form action="{{ url('/register') }}" method="POST">
+        @csrf
+        
+        <div class="input-box">
+            <i class='bx bxs-user'></i>
+            <input type="text" name="name" placeholder="Full Name" required>
         </div>
-        <form class="mt-8 space-y-6" action="{{ url('/register') }}" method="POST">
-            @csrf
-            <div class="rounded-md shadow-sm -space-y-px">
-                <div>
-                    <label for="name" class="sr-only">Full Name</label>
-                    <input id="name" name="name" type="text" autocomplete="name" required 
-                           class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm" 
-                           placeholder="Full Name">
-                </div>
-                <div>
-                    <label for="email" class="sr-only">Email address</label>
-                    <input id="email" name="email" type="email" autocomplete="email" required 
-                           class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm" 
-                           placeholder="Email address">
-                </div>
-                <div>
-                    <label for="password" class="sr-only">Password</label>
-                    <input id="password" name="password" type="password" autocomplete="new-password" required 
-                           class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm" 
-                           placeholder="Password">
-                </div>
-                <div>
-                    <label for="password_confirmation" class="sr-only">Confirm Password</label>
-                    <input id="password_confirmation" name="password_confirmation" type="password" autocomplete="new-password" required 
-                           class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm" 
-                           placeholder="Confirm Password">
-                </div>
-            </div>
-
-            <div>
-                <button type="submit" 
-                        class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                    Create Account
-                </button>
-            </div>
-        </form>
+        
+        <div class="input-box">
+            <i class='bx bxs-envelope'></i>
+            <input type="email" name="email" placeholder="Email" required>
+        </div>
+        
+        <div class="input-box">
+            <i class='bx bxs-lock-alt'></i>
+            <input type="password" name="password" placeholder="Password" required>
+        </div>
+        
+        <div class="input-box">
+            <i class='bx bxs-lock-alt'></i>
+            <input type="password" name="password_confirmation" placeholder="Confirm Password" required>
+        </div>
+        
+        <div class="remember-forgot" style="justify-content: flex-start;">
+            <label>
+                <input type="checkbox" required>
+                I agree to the terms & conditions
+            </label>
+        </div>
+        
+        <button type="submit" class="btn-submit">
+            Sign Up
+        </button>
+        
+        <div class="logreg-link">
+            <p>Already have an account? <a href="{{ route('login') }}">Sign in</a></p>
+        </div>
+        </div>
     </div>
 </div>
 @endsection

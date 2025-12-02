@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="bg-gray-50 min-h-screen">
-    <div class="max-w-5xl mx-auto px-4 py-10">
+    <div class="max-w-6xl mx-auto px-4 py-10">
         {{-- Header --}}
         <div class="mb-6">
             <h1 class="text-3xl font-bold text-gray-900">Skill Posts</h1>
