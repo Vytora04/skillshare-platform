@@ -1,61 +1,176 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🌍 SkillShare for Social Impact
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+**SkillShare for Social Impact** is a Laravel-based web platform that connects **volunteers, students, NGOs, and community projects** to exchange skills and collaborate on social-impact initiatives — inspired by **SDG 17: Partnerships for the Goals**.
 
-## About Laravel
+The goal is to create a simple, searchable skill exchange system that helps smaller organizations access much-needed expertise without cost barriers.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 🖼️ Demo Preview
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+> Homepage with TailwindCSS Hero, call-to-action buttons, and a skill post listing system.
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## 🚀 Features Implemented
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+✅ **Home Page (Landing Section)**
+- Hero with CTA buttons (Get Started, Explore, Browse Skill Posts)
+- Responsive Tailwind design
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+✅ **Skill Post System**
+- Model, Controller, Migration
+- `/skill-posts` page showing “I Offer” and “I Need” listings
+- Search functionality (by title, skills, or description)
+- Detail page for each post
 
-## Laravel Sponsors
+✅ **Seed Data**
+- 2 sample posts (“UI/UX Designer for NGO Donation Page” and “Need Grant Writer…”)
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+✅ **Navigation Integration**
+- Homepage and “Load More Projects” button link to `/skill-posts`
 
-### Premium Partners
+✅ **Auth Pages (Laravel Breeze)**
+- Register & Login pages ready (basic flow)
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+---
 
-## Contributing
+## 🧩 Tech Stack
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+| Layer | Technology |
+|-------|-------------|
+| Frontend | Blade + TailwindCSS |
+| Backend | Laravel 10 / PHP 8 |
+| Database | MySQL / SQLite |
+| Auth | Laravel Breeze |
+| Hosting | Localhost / DigitalOcean |
 
-## Code of Conduct
+---
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## 🗂️ Folder Overview
 
-## Security Vulnerabilities
+```
+resources/
+ ├── views/
+ │   ├── layouts/app.blade.php     → Main layout
+ │   ├── projects/home.blade.php   → Homepage
+ │   ├── skill_posts/              → Skill post views (index, show)
+ │   └── auth/                     → Register/Login pages
+ ├── routes/web.php                → Routes
+ └── database/migrations/          → Tables (users, skill_posts)
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+---
 
-## License
+## ⚙️ Installation & Setup
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### 1️⃣ Clone the Repository
+```bash
+git clone https://github.com/Vytora04/skillshare-platform.git
+cd skillshare-platform
+```
+
+### 2️⃣ Install Dependencies
+```bash
+composer install
+npm install && npm run dev
+```
+
+### 3️⃣ Configure Environment
+```bash
+cp .env.example .env
+php artisan key:generate
+```
+
+Edit `.env` and update:
+```
+DB_CONNECTION=sqlite
+# or
+DB_CONNECTION=mysql
+DB_DATABASE=skillshare
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+### 4️⃣ Run Migrations
+```bash
+php artisan migrate:fresh
+```
+
+### 5️⃣ (Optional) Seed Sample Data
+Use Laravel Tinker:
+```bash
+php artisan tinker
+use App\Models\SkillPost;
+
+SkillPost::create([
+    'title' => 'UI/UX Designer for NGO Donation Page',
+    'type' => 'offer',
+    'skills' => 'Figma, UX, UI Design',
+    'location' => 'Remote',
+    'time_commitment' => '5 hours over 1 week',
+    'description' => 'I can help redesign your donation landing page to increase donor conversions.',
+]);
+```
+
+### 6️⃣ Serve Locally
+```bash
+php artisan serve
+```
+
+Then open:  
+👉 http://127.0.0.1:8000
+
+---
+
+## 🧭 Main Pages
+
+| URL | Description |
+|------|--------------|
+| `/` | Homepage |
+| `/skill-posts` | List of “I Offer” / “I Need” posts |
+| `/skill-posts/{id}` | Post detail page |
+| `/register` | Register new account |
+| `/login` | Login page |
+
+---
+
+## 🧑‍💻 Future Improvements
+- Add “Create Post” form (for Seekers and Providers)
+- Add User Profiles and Roles
+- Add Admin Dashboard
+- Add Impact Showcase page
+
+---
+
+## 📸 Screenshots (add later)
+
+| Page | Description |
+|------|--------------|
+| Homepage | Hero + CTA buttons |
+| Skill Posts | Skill listing page |
+| Detail | Post info card |
+
+---
+
+## 👥 Contributors
+
+| Name | Role | Notes |
+|------|------|-------|
+| **Fahimsyach Lokanta** | Backend, Laravel setup | `lokantafahimsyach@gmail.com` |
+| **Teammate Name** | Frontend (Blade + Tailwind) | |
+| **Teammate Name** | Documentation / Testing | |
+
+---
+
+## 📄 License
+This project is open-source under the [MIT License](https://opensource.org/licenses/MIT).
+
+---
+
+## ❤️ Acknowledgements
+- Built using [Laravel](https://laravel.com)
+- Styled with [TailwindCSS](https://tailwindcss.com)
+- Inspired by real-world community volunteering and SDG 17 initiatives.
+
+---
