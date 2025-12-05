@@ -11,15 +11,15 @@
             Connect with changemakers, NGOs, and volunteers to collaborate on social-impact projects that matter.
         </p>
         <div class="flex justify-center gap-4">
-            <a href="{{ route('register') }}" 
+            <a href="{{ route('register') }}"
                class="bg-white text-blue-700 font-semibold px-6 py-3 rounded-lg shadow hover:bg-blue-100 transition">
                Get Started
             </a>
-            <a href="{{ route('projects.index') }}" 
+            <a href="{{ route('projects.index') }}"
                class="border border-white text-white px-6 py-3 rounded-lg hover:bg-white hover:text-blue-700 transition">
                Explore Opportunities
             </a>
-            <a href="{{ route('skill-posts.index') }}" 
+            <a href="{{ route('skill-posts.index') }}"
                class="bg-indigo-500 text-white font-semibold px-6 py-3 rounded-lg shadow hover:bg-indigo-600 transition">
                Browse Skill Posts
             </a>
@@ -58,12 +58,13 @@
         <p class="text-lg text-gray-600 mb-8">
             Whether you want to offer your skills or find help for your project, SkillShare makes collaboration easy and meaningful.
         </p>
-        <a href="{{ route('register') }}" 
+        <a href="{{ route('register') }}"
            class="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold shadow hover:bg-blue-700 transition">
            Join the Community
         </a>
     </div>
 </section>
+
 
 <!-- Footer -->
 <footer class="bg-gray-900 text-gray-400 py-8">

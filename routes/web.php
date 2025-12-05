@@ -23,7 +23,7 @@ Route::get('/home', function () {
 Route::get('/login', function () {
     return view('auth.login');
 })->name('login');
-    
+
 Route::get('/register', function () {
     return view('auth.register');
 })->name('register');
@@ -49,6 +49,42 @@ Route::post('/register', function (Request $request) {
     // redirect to home (or wherever you want)
     return redirect('/home');
 });
+
+// ... existing code ...
+
+// 1. Handle the Login Form Submission
+Route::post('/login', function (Request $request) {
+    // Validate the input
+    $credentials = $request->validate([
+        'email' => ['required', 'email'],
+        'password' => ['required'],
+    ]);
+
+    // Try to log the user in
+    if (Auth::attempt($credentials)) {
+        $request->session()->regenerate();
+
+        // Redirect to home upon success
+        return redirect()->intended('home');
+    }
+
+    // If login fails, go back with an error
+    return back()->withErrors([
+        'email' => 'The provided credentials do not match our records.',
+    ]);
+});
+
+// 2. Handle Logout
+Route::post('/logout', function (Request $request) {
+    Auth::logout();
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
+    return redirect('/');
+})->name('logout');
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
 // Projects routes
 Route::get('/projects', function () {
