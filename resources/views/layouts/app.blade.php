@@ -16,7 +16,7 @@
             <a href="{{ url('/') }}" class="text-2xl font-bold text-blue-600">SkillShare</a>
             <a href="{{ route('projects.index') }}" class="text-gray-700 hover:text-blue-600">Projects</a>
             <a href="{{ route('skill-posts.index') }}" class="text-gray-700 hover:text-blue-600">Skill Posts</a>
-            
+
             {{-- Admin Link (only visible to admins) --}}
             @auth
                 @if(Auth::user()->isAdmin())

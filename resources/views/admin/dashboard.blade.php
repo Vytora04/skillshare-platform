@@ -30,7 +30,7 @@
         <div class="px-6 py-4 border-b border-gray-200">
             <h2 class="text-xl font-bold">Users Management</h2>
         </div>
-        
+
         <div class="overflow-x-auto">
             <table class="w-full">
                 <thead class="bg-gray-50 border-b border-gray-200">
