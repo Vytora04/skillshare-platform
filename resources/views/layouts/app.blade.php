@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'SkillShare')</title>
     @vite('resources/css/app.css')
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 <body class="antialiased text-gray-900">
     <nav class="bg-white shadow py-4">
@@ -15,6 +16,13 @@
             <a href="{{ url('/') }}" class="text-2xl font-bold text-blue-600">SkillShare</a>
             <a href="{{ route('projects.index') }}" class="text-gray-700 hover:text-blue-600">Projects</a>
             <a href="{{ route('skill-posts.index') }}" class="text-gray-700 hover:text-blue-600">Skill Posts</a>
+            
+            {{-- Admin Link (only visible to admins) --}}
+            @auth
+                @if(Auth::user()->isAdmin())
+                    <a href="{{ route('admin.dashboard') }}" class="text-gray-700 hover:text-purple-600 font-semibold">Admin Panel</a>
+                @endif
+            @endauth
             </div>
 
             {{-- Right Side: Authentication Logic --}}
@@ -49,6 +57,55 @@
     <main>
         @yield('content')
     </main>
+
+    {{-- Floating action button: quick access to create a skill post --}}
+    @auth
+        <a href="{{ route('skill-posts.create') }}" aria-label="Create skill post"
+           class="fixed bottom-6 right-6 z-50 bg-green-600 hover:bg-green-700 text-white rounded-full p-4 shadow-lg flex items-center justify-center transition">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+            </svg>
+        </a>
+    @else
+        <a href="{{ route('register') }}" aria-label="Sign up to create a post"
+           class="fixed bottom-6 right-6 z-50 bg-blue-600 hover:bg-blue-700 text-white rounded-full p-4 shadow-lg flex items-center justify-center transition">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+            </svg>
+        </a>
+    @endauth
+
+    <script>
+        // Fallback logout via fetch to avoid unexpected form submission issues
+        (function(){
+            const logoutForm = document.querySelector('form[action="{{ route('logout') }}"][method="POST"]');
+            if (!logoutForm) return;
+
+            logoutForm.addEventListener('submit', function(e){
+                // Let the normal form submit proceed if JS wants to; instead prevent and use fetch
+                e.preventDefault();
+
+                const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+                fetch('{{ route('logout') }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': token,
+                        'Accept': 'application/json'
+                    },
+                    credentials: 'same-origin',
+                    body: JSON.stringify({})
+                }).then(resp => {
+                    // redirect to home after logout
+                    window.location = '/';
+                }).catch(err => {
+                    // if fetch fails, fallback to normal form submit
+                    logoutForm.submit();
+                });
+            });
+        })();
+    </script>
 
 </body>
 </html>

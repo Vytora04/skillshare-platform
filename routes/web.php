@@ -2,12 +2,17 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SkillPostController;
+use App\Http\Controllers\AdminController;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 
 Route::get('/skill-posts', [SkillPostController::class, 'index'])->name('skill-posts.index');
+// Create + Store (authenticated) - placed before the parameter route to avoid route conflicts
+Route::get('/skill-posts/create', [SkillPostController::class, 'create'])->name('skill-posts.create')->middleware('auth');
+Route::post('/skill-posts', [SkillPostController::class, 'store'])->name('skill-posts.store')->middleware('auth');
 Route::get('/skill-posts/{skillPost}', [SkillPostController::class, 'show'])->name('skill-posts.show');
 
 
@@ -40,7 +45,8 @@ Route::post('/register', function (Request $request) {
     $user = User::create([
         'name' => $data['name'],
         'email' => $data['email'],
-        'password' => $data['password'],
+        // Hash the password before storing it so Auth::attempt() works correctly
+        'password' => Hash::make($data['password']),
     ]);
 
     // log them in
@@ -90,5 +96,24 @@ Route::get('/dashboard', function () {
 Route::get('/projects', function () {
     return view('projects.index');
 })->name('projects.index');
+
+// Admin area (example) - protect with auth and IsAdmin middleware
+Route::get('/admin', [AdminController::class, 'dashboard'])->middleware([\App\Http\Middleware\IsAdmin::class, 'auth'])->name('admin.dashboard');
+
+// Admin user management routes
+Route::middleware(['web', \App\Http\Middleware\IsAdmin::class, 'auth'])->prefix('admin/users')->name('admin.users.')->group(function () {
+    Route::get('/', [AdminController::class, 'listUsers'])->name('index');
+    Route::get('/{user}', [AdminController::class, 'showUser'])->name('show');
+    Route::patch('/{user}/toggle-role', [AdminController::class, 'toggleRole'])->name('toggle-role');
+    Route::delete('/{user}', [AdminController::class, 'deleteUser'])->name('destroy');
+});
+
+// Temporary test route to verify server-side logout without the form (GET)
+Route::get('/logout-test', function (Request $request) {
+    Auth::logout();
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
+    return redirect('/');
+});
 
 
