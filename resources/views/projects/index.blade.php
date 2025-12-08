@@ -11,10 +11,17 @@
             Discover opportunities to contribute your skills to meaningful social impact initiatives.
         </p>
         <div class="flex justify-center gap-4">
-            <a href="{{ route('register') }}" 
-               class="bg-white text-green-700 font-semibold px-6 py-3 rounded-lg shadow hover:bg-green-100 transition">
-               Start Contributing
-            </a>
+            @guest
+                <a href="{{ route('register') }}" 
+                   class="bg-white text-green-700 font-semibold px-6 py-3 rounded-lg shadow hover:bg-green-100 transition">
+                   Start Contributing
+                </a>
+            @else
+                <a href="{{ route('dashboard') }}" 
+                   class="bg-white text-green-700 font-semibold px-6 py-3 rounded-lg shadow hover:bg-green-100 transition">
+                   Start Contributing
+                </a>
+            @endguest
         </div>
     </div>
 </section>
@@ -115,10 +122,17 @@
         <p class="text-lg text-gray-600 mb-8">
             If you're working on a social impact project and need help, share it with our community of skilled volunteers.
         </p>
-        <a href="{{ route('register') }}" 
-           class="bg-green-600 text-white px-8 py-3 rounded-lg font-semibold shadow hover:bg-green-700 transition">
-           Post Your Project
-        </a>
+          @guest
+                <a href="{{ route('register') }}" 
+                    class="bg-green-600 text-white px-8 py-3 rounded-lg font-semibold shadow hover:bg-green-700 transition">
+                    Post Your Project
+                </a>
+          @else
+                <a href="{{ route('skill-posts.create') }}" 
+                    class="bg-green-600 text-white px-8 py-3 rounded-lg font-semibold shadow hover:bg-green-700 transition">
+                    Post Your Project
+                </a>
+          @endguest
     </div>
 </section>
 @endsection
