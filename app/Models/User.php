@@ -22,6 +22,7 @@ class User extends Authenticatable
         'email',
         'password',
         'is_admin',
+        'is_moderator',
     ];
 
     /**
@@ -45,6 +46,7 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'is_admin' => 'boolean',
+            'is_moderator' => 'boolean',
         ];
     }
 
@@ -57,11 +59,41 @@ class User extends Authenticatable
     }
 
     /**
-     * Check if user is a regular user (not admin).
+     * Check if user is a moderator.
+     */
+    public function isModerator(): bool
+    {
+        return $this->is_moderator;
+    }
+
+    /**
+     * Check if user is a regular user (not admin or moderator).
      */
     public function isUser(): bool
     {
-        return !$this->is_admin;
+        return !$this->is_admin && !$this->is_moderator;
+    }
+
+    /**
+     * Check if user has any moderating privileges (admin or moderator).
+     */
+    public function isStaff(): bool
+    {
+        return $this->is_admin || $this->is_moderator;
+    }
+
+    /**
+     * Get user's role as a string.
+     */
+    public function getRole(): string
+    {
+        if ($this->is_admin) {
+            return 'Admin';
+        }
+        if ($this->is_moderator) {
+            return 'Moderator';
+        }
+        return 'User';
     }
 
     /**
@@ -69,7 +101,7 @@ class User extends Authenticatable
      */
     public function makeAdmin(): void
     {
-        $this->update(['is_admin' => true]);
+        $this->update(['is_admin' => true, 'is_moderator' => false]);
     }
 
     /**
@@ -78,5 +110,29 @@ class User extends Authenticatable
     public function removeAdmin(): void
     {
         $this->update(['is_admin' => false]);
+    }
+
+    /**
+     * Make user a moderator.
+     */
+    public function makeModerator(): void
+    {
+        $this->update(['is_moderator' => true, 'is_admin' => false]);
+    }
+
+    /**
+     * Remove moderator privileges from user.
+     */
+    public function removeModerator(): void
+    {
+        $this->update(['is_moderator' => false]);
+    }
+
+    /**
+     * Make user a regular user (remove all roles).
+     */
+    public function makeUser(): void
+    {
+        $this->update(['is_admin' => false, 'is_moderator' => false]);
     }
 }

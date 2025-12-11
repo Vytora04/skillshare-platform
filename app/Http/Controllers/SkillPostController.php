@@ -4,14 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Models\SkillPost;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SkillPostController extends Controller
 {
     public function __construct()
     {
-        // Require authentication for create/store actions
-        $this->middleware('auth')->only(['create', 'store']);
+        // Require authentication for create/store/delete actions
+        $this->middleware('auth')->only(['create', 'store', 'delete']);
     }
+    
     // List + search
     public function index(Request $request)
     {
@@ -54,8 +56,27 @@ class SkillPostController extends Controller
             'description' => 'required|string',
         ]);
 
+        $data['user_id'] = Auth::id();
         $post = SkillPost::create($data);
 
         return redirect()->route('skill-posts.show', $post->id)->with('success', 'Skill post created successfully.');
+    }
+
+    /**
+     * Delete a skill post (admins and moderators can delete any post).
+     */
+    public function destroy(SkillPost $skillPost)
+    {
+        $user = Auth::user();
+
+        // Check if user is staff (admin or moderator)
+        if (!$user->isStaff()) {
+            abort(403, 'Unauthorized. Only admins and moderators can delete posts.');
+        }
+
+        $title = $skillPost->title;
+        $skillPost->delete();
+
+        return redirect()->route('skill-posts.index')->with('success', "Post \"$title\" has been deleted.");
     }
 }

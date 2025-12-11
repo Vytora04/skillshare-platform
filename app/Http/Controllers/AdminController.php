@@ -13,33 +13,55 @@ class AdminController extends Controller
      */
     public function dashboard()
     {
+        $currentUser = Auth::user();
+        
         $users = User::paginate(15);
         $totalUsers = User::count();
         $totalAdmins = User::where('is_admin', true)->count();
-        $totalRegularUsers = $totalUsers - $totalAdmins;
+        $totalModerators = User::where('is_moderator', true)->count();
+        $totalRegularUsers = $totalUsers - $totalAdmins - $totalModerators;
 
-        return view('admin.dashboard', compact('users', 'totalUsers', 'totalAdmins', 'totalRegularUsers'));
+        return view('admin.dashboard', compact('users', 'totalUsers', 'totalAdmins', 'totalModerators', 'totalRegularUsers', 'currentUser'));
     }
 
     /**
-     * Toggle user admin role.
+     * Toggle user role (Admins can only manage moderators, Moderators can promote/demote to regular).
      */
-    public function toggleRole(User $user)
+    public function toggleRole(User $target)
     {
-        // Prevent admin from removing their own admin privileges
-        if ($user->id === Auth::id()) {
+        $currentUser = Auth::user();
+
+        // Prevent users from changing their own role
+        if ($target->id === $currentUser->id) {
             return back()->with('error', 'You cannot change your own role.');
         }
 
-        if ($user->isAdmin()) {
-            $user->removeAdmin();
-            $message = ucfirst($user->name) . ' is no longer an admin.';
-        } else {
-            $user->makeAdmin();
-            $message = ucfirst($user->name) . ' is now an admin.';
+        // ADMIN RULES: Can only delete posts, cannot manage admin/moderator roles
+        if ($currentUser->isAdmin() && !$currentUser->isModerator()) {
+            return back()->with('error', 'Admins can only delete posts, not manage user roles.');
         }
 
-        return back()->with('success', $message);
+        // MODERATOR RULES
+        if ($currentUser->isModerator()) {
+            // Cannot remove moderator status from another moderator
+            if ($target->isModerator()) {
+                return back()->with('error', 'You cannot change another moderator\'s role.');
+            }
+
+            // Can make someone a moderator
+            if ($target->isAdmin()) {
+                $target->makeUser();
+                return back()->with('success', ucfirst($target->name) . ' is now a regular user.');
+            }
+
+            // Can make a regular user a moderator
+            if ($target->isUser()) {
+                $target->makeModerator();
+                return back()->with('success', ucfirst($target->name) . ' is now a moderator.');
+            }
+        }
+
+        return back()->with('error', 'Unauthorized action.');
     }
 
     /**
@@ -60,13 +82,20 @@ class AdminController extends Controller
     }
 
     /**
-     * Delete a user.
+     * Delete a user (Admins and Moderators can delete users).
      */
     public function deleteUser(User $user)
     {
+        $currentUser = Auth::user();
+
         // Prevent deleting yourself
-        if ($user->id === Auth::id()) {
+        if ($user->id === $currentUser->id) {
             return back()->with('error', 'You cannot delete your own account.');
+        }
+
+        // Only admins and moderators can delete users
+        if (!$currentUser->isStaff()) {
+            return back()->with('error', 'Only staff can delete users.');
         }
 
         $userName = $user->name;

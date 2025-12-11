@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class IsAdmin
+class IsModerator
 {
     /**
      * Handle an incoming request.
@@ -15,8 +15,8 @@ class IsAdmin
     {
         $user = Auth::user();
 
-        if (!$user || !$user->isStaff()) {
-            abort(403, 'Unauthorized. Admin or Moderator privileges required.');
+        if (!$user || (!$user->is_moderator && !$user->is_admin)) {
+            abort(403, 'Unauthorized. Moderator or Admin privileges required.');
         }
 
         return $next($request);
