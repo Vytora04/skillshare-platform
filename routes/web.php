@@ -14,6 +14,7 @@ Route::get('/skill-posts', [SkillPostController::class, 'index'])->name('skill-p
 Route::get('/skill-posts/create', [SkillPostController::class, 'create'])->name('skill-posts.create')->middleware('auth');
 Route::post('/skill-posts', [SkillPostController::class, 'store'])->name('skill-posts.store')->middleware('auth');
 Route::get('/skill-posts/{skillPost}', [SkillPostController::class, 'show'])->name('skill-posts.show');
+Route::delete('/skill-posts/{skillPost}', [SkillPostController::class, 'destroy'])->name('skill-posts.destroy')->middleware(['auth', \App\Http\Middleware\IsModerator::class]);
 
 
 Route::get('/', function () {
@@ -41,7 +42,7 @@ Route::post('/register', function (Request $request) {
         'password' => ['required', 'string', 'min:6', 'confirmed'],
     ]);
 
-    // create user (password will be hashed automatically because of the cast in User model) :contentReference[oaicite:2]{index=2}
+    // create user (password will be hashed automatically because of the cast in User model)
     $user = User::create([
         'name' => $data['name'],
         'email' => $data['email'],
@@ -49,11 +50,8 @@ Route::post('/register', function (Request $request) {
         'password' => Hash::make($data['password']),
     ]);
 
-    // log them in
-    Auth::login($user);
-
-    // redirect to home (or wherever you want)
-    return redirect('/home');
+    // Redirect to login page instead of auto-signing in
+    return redirect()->route('login')->with('success', 'Account created successfully! Please sign in.');
 });
 
 // ... existing code ...

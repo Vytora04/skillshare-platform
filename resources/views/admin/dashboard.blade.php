@@ -10,14 +10,18 @@
     </div>
 
     <!-- Stats Section -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
         <div class="bg-white rounded-lg shadow p-6">
             <h3 class="text-gray-600 text-sm font-semibold uppercase mb-2">Total Users</h3>
             <p class="text-3xl font-bold text-blue-600">{{ $totalUsers }}</p>
         </div>
         <div class="bg-white rounded-lg shadow p-6">
             <h3 class="text-gray-600 text-sm font-semibold uppercase mb-2">Admins</h3>
-            <p class="text-3xl font-bold text-purple-600">{{ $totalAdmins }}</p>
+            <p class="text-3xl font-bold text-red-600">{{ $totalAdmins }}</p>
+        </div>
+        <div class="bg-white rounded-lg shadow p-6">
+            <h3 class="text-gray-600 text-sm font-semibold uppercase mb-2">Moderators</h3>
+            <p class="text-3xl font-bold text-yellow-600">{{ $totalModerators }}</p>
         </div>
         <div class="bg-white rounded-lg shadow p-6">
             <h3 class="text-gray-600 text-sm font-semibold uppercase mb-2">Regular Users</h3>
@@ -49,22 +53,33 @@
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{{ $user->email }}</td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 @if($user->isAdmin())
-                                    <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-purple-100 text-purple-800">Admin</span>
+                                    <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">Admin</span>
+                                @elseif($user->isModerator())
+                                    <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">Moderator</span>
                                 @else
                                     <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">User</span>
                                 @endif
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{{ $user->created_at->format('M d, Y') }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm">
-                                <form action="{{ route('admin.users.toggle-role', $user->id) }}" method="POST" class="inline">
-                                    @csrf
-                                    @method('PATCH')
-                                    @if($user->isAdmin())
-                                        <button type="submit" class="text-red-600 hover:text-red-800 font-medium">Remove Admin</button>
-                                    @else
-                                        <button type="submit" class="text-blue-600 hover:text-blue-800 font-medium">Make Admin</button>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm space-x-2">
+                                @if($user->id !== $currentUser->id)
+                                    <!-- Show role management based on current user -->
+                                    @if($currentUser->isModerator())
+                                        @if(!$user->isModerator())
+                                            <form action="{{ route('admin.users.toggle-role', $user->id) }}" method="POST" class="inline">
+                                                @csrf
+                                                @method('PATCH')
+                                                @if($user->isAdmin())
+                                                    <button type="submit" class="text-blue-600 hover:text-blue-800 font-medium">Make User</button>
+                                                @else
+                                                    <button type="submit" class="text-blue-600 hover:text-blue-800 font-medium">Make Moderator</button>
+                                                @endif
+                                            </form>
+                                        @else
+                                            <span class="text-gray-500 font-medium">Cannot modify moderators</span>
+                                        @endif
                                     @endif
-                                </form>
+                                @endif
                             </td>
                         </tr>
                     @empty

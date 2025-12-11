@@ -16,16 +16,14 @@
             <a href="{{ url('/') }}" class="text-2xl font-bold text-blue-600">SkillShare</a>
             <a href="{{ route('projects.index') }}" class="text-gray-700 hover:text-blue-600">Projects</a>
             <a href="{{ route('skill-posts.index') }}" class="text-gray-700 hover:text-blue-600">Skill Posts</a>
-
-            {{-- Admin Link (only visible to admins) --}}
+            
+            {{-- Staff Panel Link (visible to admins and moderators) --}}
             @auth
-                @if(Auth::user()->isAdmin())
-                    <a href="{{ route('admin.dashboard') }}" class="text-gray-700 hover:text-purple-600 font-semibold">Admin Panel</a>
+                @if(Auth::user()->isStaff())
+                    <a href="{{ route('admin.dashboard') }}" class="text-gray-700 hover:text-purple-600 font-semibold">Staff Panel</a>
                 @endif
             @endauth
-            </div>
-
-            {{-- Right Side: Authentication Logic --}}
+            </div>            {{-- Right Side: Authentication Logic --}}
             <div class="flex items-center gap-4">
                 @auth
                     {{-- STATE 1: User is Logged In --}}
