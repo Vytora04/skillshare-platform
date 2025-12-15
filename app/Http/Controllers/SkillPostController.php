@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\SkillPost;
 use App\Models\Tag;
-use Illuminate\Http\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
