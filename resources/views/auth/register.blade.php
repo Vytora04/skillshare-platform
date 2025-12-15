@@ -10,7 +10,7 @@
     </a>
     <div style="padding-top: 80px; padding-bottom: 80px;">
     <h2 class="text-4xl font-bold form-title text-center mb-10">Sign Up</h2>
-    
+
     {{-- Display validation errors --}}
     @if ($errors->any())
         <div class="mb-6 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
@@ -22,10 +22,10 @@
             </ul>
         </div>
     @endif
-    
+
     <form action="{{ url('/register') }}" method="POST" class="space-y-4">
         @csrf
-        
+
         <div>
             <div class="input-box">
                 <i class='bx bxs-user'></i>
@@ -35,7 +35,7 @@
                 <span class="text-red-500 text-xs mt-1 block ml-2">{{ $message }}</span>
             @enderror
         </div>
-        
+
         <div>
             <div class="input-box">
                 <i class='bx bxs-envelope'></i>
@@ -45,18 +45,23 @@
                 <span class="text-red-500 text-xs mt-1 block ml-2">{{ $message }}</span>
             @enderror
         </div>
-        
+
         <div>
             <div class="input-box">
                 <i class='bx bxs-lock-alt'></i>
-                <input type="password" name="password" placeholder="Password" required>
+                <input type="password" name="password" placeholder="Password (Minimum 8 characters)" required>
             </div>
-            <span class="text-gray-500 text-xs mt-1 block ml-2">Minimum 6 characters</span>
+
+            <!-- client-side validation placeholder (hidden until submit) -->
+            <div class="mt-1">
+                <small id="passwordError" class="text-red-500 text-xs mt-1 block ml-2" style="display:none;"></small>
+            </div>
+
             @error('password')
                 <span class="text-red-500 text-xs mt-1 block ml-2">{{ $message }}</span>
             @enderror
         </div>
-        
+
         <div>
             <div class="input-box">
                 <i class='bx bxs-lock-alt'></i>
@@ -65,22 +70,67 @@
             @error('password_confirmation')
                 <span class="text-red-500 text-xs mt-1 block ml-2">{{ $message }}</span>
             @enderror
+            <div class="mt-1">
+                <small id="passwordConfirmError" class="text-red-500 text-xs mt-1 block ml-2" style="display:none;"></small>
+            </div>
         </div>
-        
+
         <div class="remember-forgot" style="justify-content: flex-start;">
             <label>
                 <input type="checkbox" required>
                 I agree to the terms & conditions
             </label>
         </div>
-        
+
         <button type="submit" class="btn-submit">
             Sign Up
         </button>
-        
+
         <div class="logreg-link">
             <p>Already have an account? <a href="{{ route('login') }}">Sign in</a></p>
         </div>
+        </form>
+
+    <script>
+        (function(){
+            const form = document.querySelector('form[action="/register"]');
+            if (!form) return;
+
+            const pwd = form.querySelector('input[name="password"]');
+            const pwdConfirm = form.querySelector('input[name="password_confirmation"]');
+            const pwdErr = document.getElementById('passwordError');
+            const pwdCerr = document.getElementById('passwordConfirmError');
+
+            form.addEventListener('submit', function(e){
+                // clear previous
+                pwdErr.style.display = 'none'; pwdErr.textContent = '';
+                pwdCerr.style.display = 'none'; pwdCerr.textContent = '';
+
+                let hasError = false;
+                const p = pwd.value || '';
+                const pc = pwdConfirm.value || '';
+
+                if (p.length < 8) {
+                    pwdErr.textContent = 'Password must be at least 8 characters.';
+                    pwdErr.style.display = 'block';
+                    hasError = true;
+                }
+
+                if (p !== pc) {
+                    pwdCerr.textContent = 'Passwords do not match.';
+                    pwdCerr.style.display = 'block';
+                    hasError = true;
+                }
+
+                if (hasError) {
+                    e.preventDefault();
+                    // focus first invalid field
+                    if (p.length < 8) pwd.focus(); else pwdConfirm.focus();
+                }
+            });
+        })();
+    </script>
+
         </div>
     </div>
 </div>
