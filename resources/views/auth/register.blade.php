@@ -49,9 +49,14 @@
         <div>
             <div class="input-box">
                 <i class='bx bxs-lock-alt'></i>
-                <input type="password" name="password" placeholder="Password" required>
+                <input type="password" name="password" placeholder="Password (Minimum 8 characters)" required>
             </div>
-            <span class="text-gray-500 text-xs mt-1 block ml-2">Minimum 6 characters</span>
+
+            <!-- client-side validation placeholder (hidden until submit) -->
+            <div class="mt-1">
+                <small id="passwordError" class="text-red-500 text-xs mt-1 block ml-2" style="display:none;"></small>
+            </div>
+
             @error('password')
                 <span class="text-red-500 text-xs mt-1 block ml-2">{{ $message }}</span>
             @enderror
@@ -65,6 +70,9 @@
             @error('password_confirmation')
                 <span class="text-red-500 text-xs mt-1 block ml-2">{{ $message }}</span>
             @enderror
+            <div class="mt-1">
+                <small id="passwordConfirmError" class="text-red-500 text-xs mt-1 block ml-2" style="display:none;"></small>
+            </div>
         </div>
         
         <div class="remember-forgot" style="justify-content: flex-start;">
@@ -81,6 +89,48 @@
         <div class="logreg-link">
             <p>Already have an account? <a href="{{ route('login') }}">Sign in</a></p>
         </div>
+        </form>
+
+    <script>
+        (function(){
+            const form = document.querySelector('form[action="/register"]');
+            if (!form) return;
+
+            const pwd = form.querySelector('input[name="password"]');
+            const pwdConfirm = form.querySelector('input[name="password_confirmation"]');
+            const pwdErr = document.getElementById('passwordError');
+            const pwdCerr = document.getElementById('passwordConfirmError');
+
+            form.addEventListener('submit', function(e){
+                // clear previous
+                pwdErr.style.display = 'none'; pwdErr.textContent = '';
+                pwdCerr.style.display = 'none'; pwdCerr.textContent = '';
+
+                let hasError = false;
+                const p = pwd.value || '';
+                const pc = pwdConfirm.value || '';
+
+                if (p.length < 8) {
+                    pwdErr.textContent = 'Password must be at least 8 characters.';
+                    pwdErr.style.display = 'block';
+                    hasError = true;
+                }
+
+                if (p !== pc) {
+                    pwdCerr.textContent = 'Passwords do not match.';
+                    pwdCerr.style.display = 'block';
+                    hasError = true;
+                }
+
+                if (hasError) {
+                    e.preventDefault();
+                    // focus first invalid field
+                    if (p.length < 8) pwd.focus(); else pwdConfirm.focus();
+                }
+            });
+        })();
+    </script>
+
         </div>
     </div>
 </div>
