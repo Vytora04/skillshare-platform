@@ -10,7 +10,7 @@
     </a>
     <div style="padding-top: 80px; padding-bottom: 80px;">
     <h2 class="text-4xl font-bold form-title text-center mb-10">Sign Up</h2>
-    
+
     {{-- Display validation errors --}}
     @if ($errors->any())
         <div class="mb-6 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
@@ -22,10 +22,10 @@
             </ul>
         </div>
     @endif
-    
+
     <form action="{{ url('/register') }}" method="POST" class="space-y-4">
         @csrf
-        
+
         <div>
             <div class="input-box">
                 <i class='bx bxs-user'></i>
@@ -35,7 +35,7 @@
                 <span class="text-red-500 text-xs mt-1 block ml-2">{{ $message }}</span>
             @enderror
         </div>
-        
+
         <div>
             <div class="input-box">
                 <i class='bx bxs-envelope'></i>
@@ -45,7 +45,7 @@
                 <span class="text-red-500 text-xs mt-1 block ml-2">{{ $message }}</span>
             @enderror
         </div>
-        
+
         <div>
             <div class="input-box">
                 <i class='bx bxs-lock-alt'></i>
@@ -61,7 +61,7 @@
                 <span class="text-red-500 text-xs mt-1 block ml-2">{{ $message }}</span>
             @enderror
         </div>
-        
+
         <div>
             <div class="input-box">
                 <i class='bx bxs-lock-alt'></i>
@@ -74,18 +74,18 @@
                 <small id="passwordConfirmError" class="text-red-500 text-xs mt-1 block ml-2" style="display:none;"></small>
             </div>
         </div>
-        
+
         <div class="remember-forgot" style="justify-content: flex-start;">
             <label>
                 <input type="checkbox" required>
                 I agree to the terms & conditions
             </label>
         </div>
-        
+
         <button type="submit" class="btn-submit">
             Sign Up
         </button>
-        
+
         <div class="logreg-link">
             <p>Already have an account? <a href="{{ route('login') }}">Sign in</a></p>
         </div>
