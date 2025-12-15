@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SkillPostController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\InvitationController;
 use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\Auth\PasswordResetController;
 use Illuminate\Http\Request;
@@ -113,6 +114,31 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::get('/profile/password', [ProfileController::class, 'editPassword'])->name('profile.password.edit');
     Route::patch('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password.update');
+});
+
+// Invitation routes
+Route::middleware('auth')->group(function () {
+    Route::get('/invitations', [InvitationController::class, 'index'])->name('invitations.index');
+    Route::post('/skill-posts/{skillPost}/invite', [InvitationController::class, 'store'])->name('invitations.store');
+    Route::post('/invitations/{invitation}/accept', [InvitationController::class, 'accept'])->name('invitations.accept');
+    Route::post('/invitations/{invitation}/reject', [InvitationController::class, 'reject'])->name('invitations.reject');
+    Route::delete('/invitations/{invitation}', [InvitationController::class, 'cancel'])->name('invitations.cancel');
+});
+
+// Project routes
+Route::middleware('auth')->prefix('projects')->name('projects.')->group(function () {
+    Route::get('/', [\App\Http\Controllers\ProjectController::class, 'index'])->name('index');
+    Route::post('/from-invitation/{invitation}', [\App\Http\Controllers\ProjectController::class, 'createFromInvitation'])->name('create-from-invitation');
+    Route::get('/{project}', [\App\Http\Controllers\ProjectController::class, 'show'])->name('show');
+    Route::post('/{project}/tasks', [\App\Http\Controllers\ProjectController::class, 'storeTask'])->name('tasks.store');
+    Route::post('/{project}/tasks/{task}/toggle', [\App\Http\Controllers\ProjectController::class, 'toggleTask'])->name('tasks.toggle');
+});
+
+// Messaging routes
+Route::middleware('auth')->prefix('messages')->name('messages.')->group(function () {
+    Route::get('/', [\App\Http\Controllers\MessageController::class, 'index'])->name('index');
+    Route::get('/{user}', [\App\Http\Controllers\MessageController::class, 'show'])->name('show');
+    Route::post('/{conversation}', [\App\Http\Controllers\MessageController::class, 'store'])->name('store');
 });
 
 // Projects routes

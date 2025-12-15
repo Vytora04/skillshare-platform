@@ -17,6 +17,10 @@
             <a href="{{ route('projects.index') }}" class="text-gray-700 hover:text-blue-600">Projects</a>
             <a href="{{ route('skill-posts.index') }}" class="text-gray-700 hover:text-blue-600">Skill Posts</a>
             
+            @auth
+                <a href="{{ route('invitations.index') }}" class="text-gray-700 hover:text-blue-600">Invitations</a>
+            @endauth
+            
             {{-- Staff Panel Link (visible to admins and moderators) --}}
             @auth
                 @if(Auth::user()->isStaff())

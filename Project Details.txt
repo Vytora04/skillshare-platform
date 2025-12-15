@@ -1,0 +1,302 @@
+Members:
+•
+•
+•
+•
+•
+
+FAHIMSYACH LOKANTA - 2702215946
+CHRISTOPHER NICHOLAS ALFEN - 2702215605
+NATHANAEL REINHART – 2702291362
+DARREN NICHOLAS SUWITO - 2702312442
+WILBERT DEVOSS KYENIL - 2702220492
+
+Topic:
+Skill-Sharing
+Platform
+A web-based platform built with Laravel + MySQL that enables individuals, students, NGOs,
+and companies to post and match “I offer” and “I need” skill requests for social-impact
+projects, promoting partnerships aligned with SDG 17.
+
+Objectives:
+1. MVP Delivery (Time-bound): Complete and deploy a functional MVP (authentication,
+posting, matching, messaging, basic project workspace, admin panel, and public
+showcase) within 10 weeks (5 sprints of 2 weeks).
+2. Beta Adoption: Onboard at least 10 organizations and 50 individual users for a
+classroom/beta trial within 4 weeks after MVP deployment.
+3. Operational Metrics: Achieve 30% match-to-project conversion (posts that
+become active projects) among beta users within 8 weeks of launch.
+4. Quality & Reliability Targets: Ensure >95% test coverage for core features (unit +
+integration tests for auth, posting, matching) and maintain average API response time
+< 500 ms under expected load.
+5. Security & Compliance: Implement authentication, role-based access control,
+input validation, upload sanitization, and data backups before public deployment
+(deadline aligned with MVP).
+
+Benefits:
+For Seekers (NGOs / student organizations / community leads):
+•
+•
+
+Faster access to necessary skills (web, design, grant writing) without significant
+expense.
+Ability to document and showcase project outcomes to attract further partners or
+funding.
+
+For Providers (students, volunteers, professionals):
+•
+•
+
+Real, credited experience and endorsements for portfolios/resumes.
+Easier discovery of meaningful volunteer opportunities.
+
+For Academic / Course Stakeholders:
+•
+•
+
+Practical, deliverable Laravel project demonstrating full-stack skills (auth, database,
+APIs, deployment).
+A demonstrable system for grading and presentation with realistic sample data and
+impact stories.
+
+For Partner Companies (CSR teams):
+•
+
+Simple channel to offer employees as volunteers and to showcase impact publicly.
+
+Scope of the project:
+In-Scope (Deliverables for this semester/course):
+•
+•
+•
+•
+•
+•
+
+Laravel-based web application with responsive UI (Blade or SPA front-end).
+User authentication & roles (Provider, Seeker, Admin, Organization rep).
+Post creation for “I Offer” and “I Need” with tags, time commitment, and location
+(remote/on-site).
+Tag-based matching & recommendation (rule-based algorithm).
+In-app messaging and private project room with task/milestone tracking.
+Project/public showcase pages for completed projects (impact metadata).
+
+•
+•
+
+Admin dashboard for moderation, metrics, and user management.
+Basic verification workflow for organizations (document upload).
+
+•
+•
+
+Unit & integration tests for core features, README and deployment instructions.
+Hosting-ready deployment (e.g., DigitalOcean / shared hosting), SSL, and DB
+backups.
+
+Out-of-Scope (Will NOT be delivered in MVP):
+•
+•
+•
+•
+•
+•
+
+Payment gateway or monetization features (paid gigs, escrow).
+Complex AI/ML-based matching or natural-language matching.
+Mobile native apps (only responsive web).
+Automated micro-grant disbursement systems.
+Extensive multi-language/localization (may be planned later).
+Enterprise integrations (CRMs, third-party APIs) beyond optional CSV import/export.
+
+Business Process:
+Below are the core workflows the system supports (each described as a linear flow):
+1. User / Organization Onboarding
+•
+•
+
+User visits landing → registers (email + password) → verifies email.
+Optional: Organization rep registers, submits verification documents → Admin
+reviews & approves.
+
+2. Posting a Need / Offer
+•
+•
+
+Seeker creates “I Need” post (title, description, skills/tags, timeframe, remote/onsite) → post saved in DB and visible to matching providers.
+Provider creates “I Offer” post (skill, availability, portfolio link).
+
+3. Matching & Invitation
+•
+•
+
+System computes tag-based suggestions → shows recommended providers to
+seeker and recommended needs to provider.
+Seeker invites provider(s) or provider applies to post → invitation accepted/declined.
+
+4. Project Formation & Execution
+•
+
+Upon acceptance, a private Project Room is created: members, tasks/milestones,
+file attachments.
+
+•
+
+Team collaborates, updates milestones, uploads deliverables.
+
+5. Completion & Impact Reporting
+•
+•
+
+Seeker verifies deliverables → project marked complete → public showcase created
+(optional) with participants and metrics (hours, beneficiaries).
+Providers receive endorsements; organizations get documented impact.
+
+6. Moderation & Governance
+•
+
+Admin reviews flagged content, verifies organizations, resolves disputes, and can
+remove or archive projects/users.
+
+Features & Requirements:
+Functional Requirements (FR)
+Authentication & User Management
+•
+•
+•
+
+FR1: Email/password registration, email verification, password reset.
+FR2: Role-based access: provider, seeker, org_rep, admin.
+FR3: Profile pages with skills, portfolio, endorsements.
+
+Posting & Discovery
+•
+•
+•
+
+FR4: Create/Edit/Delete posts for “I Offer” and “I Need” with tags, availability, and
+attachments.
+FR5: Search & filter by skill tag, location (remote/on-site), time commitment, and
+SDG category.
+FR6: Tag-based recommendation engine (simple rule-based matching).
+
+Collaboration & Communication
+•
+•
+
+FR7: In-app messaging between matched users (real-time optional via Laravel Echo
++ Pusher/Socket).
+FR8: Project Room with milestones, task checklist, file attachments, and activity log.
+
+Verification & Trust
+
+•
+•
+
+FR9: Organization verification workflow (document upload → admin review → verified
+badge).
+FR10: Rating/endorsement system (qualitative; not commercial star-rating).
+
+Admin & Analytics
+•
+•
+
+FR11: Admin dashboard: user management, content moderation, platform metrics
+(posts, matches, completed projects, volunteer hours).
+FR12: Reporting: export CSV of metrics.
+
+Testing & Documentation
+•
+•
+
+FR13: Unit/integration tests for core flows and API endpoints.
+FR14: README + setup/deploy instructions, user guide for demo.
+
+Non-Functional Requirements (NFR)
+Performance
+•
+•
+
+NFR1: Average page/API response < 500 ms under classroom/beta load.
+NFR2: Deploy with caching (Redis optional) and database indexing for search.
+
+Security
+•
+•
+
+NFR3: CSRF protection (Laravel built-in), XSS sanitization, input validation on server
+side, password hashing (bcrypt/argon2).
+NFR4: Rate limiting on public endpoints (login, post creation) to avoid abuse.
+
+•
+
+NFR5: Secure file uploads (limit types/sizes, virus scanning optional).
+
+Reliability & Maintainability
+•
+•
+•
+
+NFR6: Daily DB backups or nightly dumps; documented restore.
+NFR7: CI pipeline to run tests on push (GitHub Actions or similar).
+NFR8: Code style and architecture using Laravel best practices (Service layer,
+Repositories where needed, Eloquent models, Migrations).
+
+Scalability
+•
+
+NFR9: Design to allow future horizontal scaling (stateless app servers, centralized
+sessions via Redis).
+
+Usability & Accessibility
+•
+
+NFR10: Responsive UI, basic WCAG contrast/semantic markup, clear microcopy for
+onboarding.
+
+Technical Stack & Environment Requirements
+•
+•
+•
+•
+•
+•
+•
+•
+
+Backend: PHP 8.1+ and Laravel (stable release), Composer for dependency
+management.
+Frontend: Laravel Blade or SPA with Vue/React for interactive parts; NPM/Yarn to
+build assets.
+Database: MySQL 8 (or MariaDB), with migrations & seeders.
+Cache/Queue: Redis (optional) for queues and cache; Laravel queues for
+email/notifications.
+Storage: Local storage for MVP, optional S3-compatible storage for production.
+Hosting: DigitalOcean / VPS / PaaS; HTTPS via Let’s Encrypt.
+Dev Tools: Git (GitHub/GitLab), GitHub Actions for CI, Dockerfile (optional) for local
+parity.
+Third-party options (optional): Pusher or Laravel Echo for real-time messaging,
+Mailgun/SendGrid for emails.
+
+Acceptance Criteria (example)
+•
+•
+•
+•
+•
+
+Registration: A new user can register and verify email; test coverage exists and
+passes.
+Post creation: Seeker can create an “I Need” post with tags and attachments; post
+appears in search results.
+Matching: System returns at least 3 suggested providers for a typical post with
+matching tags.
+Project room: After an invite is accepted, a Project Room is created and users can
+exchange messages and complete tasks.
+Admin: Admin can verify organizations and remove inappropriate posts; removal
+reflects immediately.
+
+Project Repository
+GitHub Repo: https://github.com/Vytora04/skillshare-platform
+
+

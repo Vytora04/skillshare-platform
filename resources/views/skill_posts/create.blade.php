@@ -53,6 +53,28 @@
         </div>
 
         <div>
+            <label class="block text-sm font-medium text-gray-700">Tags</label>
+            <div class="mt-2 space-y-2">
+                <div class="flex flex-wrap gap-2">
+                    @foreach($tags as $tag)
+                        <label class="inline-flex items-center">
+                            <input type="checkbox" name="tags[]" value="{{ $tag->id }}" 
+                                {{ in_array($tag->id, old('tags', [])) ? 'checked' : '' }}
+                                class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                            <span class="ml-1 text-sm">{{ $tag->name }}</span>
+                        </label>
+                    @endforeach
+                </div>
+                <div>
+                    <label class="block text-xs text-gray-500 mb-1">Or create new tags (comma-separated)</label>
+                    <input name="new_tags" value="{{ old('new_tags') }}" 
+                        placeholder="e.g. Web Development, Design, Marketing"
+                        class="block w-full border rounded px-3 py-2 text-sm" />
+                </div>
+            </div>
+        </div>
+
+        <div>
             <label class="block text-sm font-medium text-gray-700">Description</label>
             <textarea name="description" rows="6" required class="mt-1 block w-full border rounded px-3 py-2">{{ old('description') }}</textarea>
         </div>

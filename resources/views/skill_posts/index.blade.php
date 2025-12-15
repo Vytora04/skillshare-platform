@@ -13,8 +13,8 @@
             </p>
         </div>
 
-        {{-- Search form --}}
-        <form action="{{ route('skill-posts.index') }}" method="GET" class="mb-6">
+        {{-- Search and filters --}}
+        <form action="{{ route('skill-posts.index') }}" method="GET" class="mb-6 space-y-4">
             <div class="flex gap-2">
                 <input
                     type="text"
@@ -29,6 +29,37 @@
                 >
                     Search
                 </button>
+            </div>
+            
+            {{-- Filters --}}
+            <div class="flex gap-4 items-center">
+                <div>
+                    <select name="type" onchange="this.form.submit()" 
+                        class="rounded-lg border border-gray-300 px-3 py-2 text-sm">
+                        <option value="">All Types</option>
+                        <option value="offer" {{ request('type') === 'offer' ? 'selected' : '' }}>I Offer</option>
+                        <option value="need" {{ request('type') === 'need' ? 'selected' : '' }}>I Need</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <select name="tag" onchange="this.form.submit()" 
+                        class="rounded-lg border border-gray-300 px-3 py-2 text-sm">
+                        <option value="">All Tags</option>
+                        @foreach($tags as $tag)
+                            <option value="{{ $tag->id }}" {{ request('tag') == $tag->id ? 'selected' : '' }}>
+                                {{ $tag->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+                
+                @if(request()->anyFilled(['search', 'type', 'tag']))
+                    <a href="{{ route('skill-posts.index') }}" 
+                        class="text-sm text-gray-600 hover:text-gray-900">
+                        Clear Filters
+                    </a>
+                @endif
             </div>
         </form>
 
@@ -46,10 +77,22 @@
                         class="block rounded-xl border border-gray-200 bg-white px-5 py-4 shadow-sm hover:shadow-md hover:border-blue-400 transition"
                     >
                         <div class="flex items-start justify-between gap-4">
-                            <div>
+                            <div class="flex-1">
                                 <h2 class="text-lg font-semibold text-gray-900">
                                     {{ $post->title }}
                                 </h2>
+                                
+                                {{-- Tags --}}
+                                @if($post->tags->count() > 0)
+                                    <div class="mt-2 flex flex-wrap gap-1">
+                                        @foreach($post->tags as $tag)
+                                            <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800">
+                                                {{ $tag->name }}
+                                            </span>
+                                        @endforeach
+                                    </div>
+                                @endif
+                                
                                 <p class="mt-1 text-sm text-gray-600">
                                     @if($post->skills)
                                         <span class="font-medium text-gray-700">Skills:</span>
