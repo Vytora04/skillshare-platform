@@ -1,176 +1,156 @@
-# 🌍 SkillBridge for Social Impact
+# SkillBridge - Skill Sharing Platform
 
-**SkillBridge for Social Impact** is a Laravel-based web platform that connects **volunteers, students, NGOs, and community projects** to exchange skills and collaborate on social-impact initiatives — inspired by **SDG 17: Partnerships for the Goals**.
+SkillBridge is a comprehensive skill-sharing platform built with Laravel, enabling users to exchange skills, collaborate on projects, and build meaningful connections. Built in alignment with **UN SDG 17: Partnerships for the Goals**.
 
-The goal is to create a simple, searchable skill exchange system that helps smaller organizations access much-needed expertise without cost barriers.
+## Features
 
----
+### Core Features
+1. **Email Verification & Authentication** - Secure user registration with email verification and password reset functionality
+2. **Multi-Role System** - Users can have multiple roles: Skill Provider, Skill Seeker, Organization Representative, Admin, and Moderator
+3. **Enhanced User Profiles** - Customizable profiles with avatars, skills, bio, location, and social links
+4. **Tag-Based Matching** - Smart recommendations connecting skill offers with skill needs using tag-based matching
+5. **Invitation System** - Users can invite others or apply to skill posts with accept/reject workflow
+6. **Project Rooms** - Collaborative project spaces with milestones and task tracking
+7. **In-App Messaging** - Direct messaging between users for seamless communication
+8. **Organization Verification** - Org representatives can submit verification documents for admin approval
+9. **Admin Dashboard** - Platform statistics and user management for admins and moderators
 
-## 🖼️ Demo Preview
+## Requirements
 
-> Homepage with TailwindCSS Hero, call-to-action buttons, and a skill post listing system.
+- PHP >= 8.2
+- Composer >= 2.8
+- Node.js >= 18 and npm
+- SQLite (default) or MySQL/PostgreSQL
 
----
+## Installation
 
-## 🚀 Features Implemented
-
-✅ **Home Page (Landing Section)**
-- Hero with CTA buttons (Get Started, Explore, Browse Skill Posts)
-- Responsive Tailwind design
-
-✅ **Skill Post System**
-- Model, Controller, Migration
-- `/skill-posts` page showing “I Offer” and “I Need” listings
-- Search functionality (by title, skills, or description)
-- Detail page for each post
-
-✅ **Seed Data**
-- 2 sample posts (“UI/UX Designer for NGO Donation Page” and “Need Grant Writer…”)
-
-✅ **Navigation Integration**
-- Homepage and “Load More Projects” button link to `/skill-posts`
-
-✅ **Auth Pages (Laravel Breeze)**
-- Register & Login pages ready (basic flow)
-
----
-
-## 🧩 Tech Stack
-
-| Layer | Technology |
-|-------|-------------|
-| Frontend | Blade + TailwindCSS |
-| Backend | Laravel 10 / PHP 8 |
-| Database | MySQL / SQLite |
-| Auth | Laravel Breeze |
-| Hosting | Localhost / DigitalOcean |
-
----
-
-## 🗂️ Folder Overview
-
-```
-resources/
- ├── views/
- │   ├── layouts/app.blade.php     → Main layout
- │   ├── projects/home.blade.php   → Homepage
- │   ├── skill_posts/              → Skill post views (index, show)
- │   └── auth/                     → Register/Login pages
- ├── routes/web.php                → Routes
- └── database/migrations/          → Tables (users, skill_posts)
-```
-
----
-
-## ⚙️ Installation & Setup
-
-### 1️⃣ Clone the Repository
+1. **Clone the repository**
 ```bash
-git clone https://github.com/Vytora04/SkillBridge.git
+git clone https://github.com/yourusername/SkillBridge.git
 cd SkillBridge
 ```
 
-### 2️⃣ Install Dependencies
+2. **Install PHP dependencies**
 ```bash
 composer install
-npm install && npm run dev
 ```
 
-### 3️⃣ Configure Environment
+3. **Install Node dependencies**
 ```bash
-cp .env.example .env
+npm install
+```
+
+4. **Set up environment**
+```bash
+copy .env.example .env
 php artisan key:generate
 ```
 
-Edit `.env` and update:
-```
-DB_CONNECTION=sqlite
-# or
-DB_CONNECTION=mysql
-DB_DATABASE=skillbridge
-DB_USERNAME=root
-DB_PASSWORD=
-```
+5. **Configure database**
+- Default: SQLite (no configuration needed)
+- For MySQL/PostgreSQL: Update `.env` with your database credentials
 
-### 4️⃣ Run Migrations
+6. **Run migrations and seed demo data**
 ```bash
-php artisan migrate:fresh
+php artisan migrate --seed
 ```
 
-### 5️⃣ (Optional) Seed Sample Data
-Use Laravel Tinker:
+7. **Build frontend assets**
 ```bash
-php artisan tinker
-use App\Models\SkillPost;
-
-SkillPost::create([
-    'title' => 'UI/UX Designer for NGO Donation Page',
-    'type' => 'offer',
-    'skills' => 'Figma, UX, UI Design',
-    'location' => 'Remote',
-    'time_commitment' => '5 hours over 1 week',
-    'description' => 'I can help redesign your donation landing page to increase donor conversions.',
-]);
+npm run build
 ```
 
-### 6️⃣ Serve Locally
+8. **Start development server**
 ```bash
 php artisan serve
 ```
 
-Then open:  
-👉 http://127.0.0.1:8000
+9. **Start Vite dev server** (in another terminal)
+```bash
+npm run dev
+```
 
----
+Visit `http://127.0.0.1:8000` in your browser.
 
-## 🧭 Main Pages
+## Demo Credentials
 
-| URL | Description |
-|------|--------------|
-| `/` | Homepage |
-| `/skill-posts` | List of “I Offer” / “I Need” posts |
-| `/skill-posts/{id}` | Post detail page |
-| `/register` | Register new account |
-| `/login` | Login page |
+Two demo accounts are created during seeding:
 
----
+### Moderator Account (All Roles)
+- Email: `moderator@skillbridge.test`
+- Password: `password`
+- Roles: Admin, Moderator, Provider, Seeker, Organization Representative
 
-## 🧑‍💻 Future Improvements
-- Add “Create Post” form (for Seekers and Providers)
-- Add User Profiles and Roles
-- Add Admin Dashboard
-- Add Impact Showcase page
+### Regular User Account
+- Email: `user@skillbridge.test`
+- Password: `password`
+- Roles: Skill Provider, Skill Seeker
 
----
+## Project Structure
 
-## 📸 Screenshots (add later)
+```
+SkillBridge/
+├── app/
+│   ├── Http/
+│   │   ├── Controllers/      # Application controllers
+│   │   └── Middleware/       # Role-based middleware
+│   └── Models/               # Eloquent models
+├── database/
+│   ├── migrations/           # Database schema
+│   └── seeders/              # Database seeders
+├── resources/
+│   ├── views/                # Blade templates
+│   ├── css/                  # Stylesheets
+│   └── js/                   # JavaScript files
+└── routes/
+    └── web.php               # Web routes
+```
 
-| Page | Description |
-|------|--------------|
-| Homepage | Hero + CTA buttons |
-| Skill Posts | Skill listing page |
-| Detail | Post info card |
+## Key Technologies
 
----
+- **Backend**: Laravel 12, PHP 8.2
+- **Frontend**: Blade Templates, TailwindCSS 4.0, Alpine.js
+- **Database**: SQLite (default), MySQL/PostgreSQL supported
+- **Build Tools**: Vite 7.0
+- **Email**: Log driver (development), SMTP ready for production
 
-## 👥 Contributors
+## Database Models
 
-| Name | Role | Notes |
-|------|------|-------|
-| **Fahimsyach Lokanta** | Backend, Laravel setup | `lokantafahimsyach@gmail.com` |
-| **Teammate Name** | Frontend (Blade + Tailwind) | |
-| **Teammate Name** | Documentation / Testing | |
+- **User** - User accounts with multi-role support
+- **SkillPost** - Skill offers and needs with tags
+- **Tag** - Skill categorization for matching
+- **Invitation** - Invitation/application workflow
+- **Project** - Collaborative project rooms
+- **Milestone** - Project milestones
+- **Task** - Project tasks
+- **Conversation** - User messaging threads
+- **Message** - Individual messages
+- **OrgVerification** - Organization verification documents
 
----
+## Development
 
-## 📄 License
-This project is open-source under the [MIT License](https://opensource.org/licenses/MIT).
+### Running Tests
+```bash
+php artisan test
+```
 
----
+### Building for Production
+```bash
+npm run build
+composer install --no-dev --optimize-autoloader
+php artisan config:cache
+php artisan route:cache
+php artisan view:cache
+```
 
-## ❤️ Acknowledgements
-- Built using [Laravel](https://laravel.com)
-- Styled with [TailwindCSS](https://tailwindcss.com)
-- Inspired by real-world community volunteering and SDG 17 initiatives.
+## License
 
----
+This project is open-sourced software licensed under the MIT license.
+
+## Contributing
+
+This is a university course project. Contributions are welcome through pull requests.
+
+## Support
+
+For issues and questions, please open an issue on GitHub.

@@ -219,6 +219,26 @@ class User extends Authenticatable implements MustVerifyEmail
         $this->update(['is_moderator' => false]);
     }
 
+    public function sentInvitations()
+    {
+        return $this->hasMany(Invitation::class, 'sender_id');
+    }
+
+    public function receivedInvitations()
+    {
+        return $this->hasMany(Invitation::class, 'receiver_id');
+    }
+
+    public function orgVerification()
+    {
+        return $this->hasOne(OrgVerification::class);
+    }
+
+    public function isVerifiedOrg(): bool
+    {
+        return $this->orgVerification && $this->orgVerification->isApproved();
+    }
+
     /**
      * Make user a regular user (remove all roles).
      */

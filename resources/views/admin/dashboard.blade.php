@@ -16,16 +16,18 @@
             <p class="text-3xl font-bold text-blue-600">{{ $totalUsers }}</p>
         </div>
         <div class="bg-white rounded-lg shadow p-6">
-            <h3 class="text-gray-600 text-sm font-semibold uppercase mb-2">Admins</h3>
-            <p class="text-3xl font-bold text-red-600">{{ $totalAdmins }}</p>
+            <h3 class="text-gray-600 text-sm font-semibold uppercase mb-2">Skill Posts</h3>
+            <p class="text-3xl font-bold text-green-600">{{ $totalPosts }}</p>
         </div>
         <div class="bg-white rounded-lg shadow p-6">
-            <h3 class="text-gray-600 text-sm font-semibold uppercase mb-2">Moderators</h3>
-            <p class="text-3xl font-bold text-yellow-600">{{ $totalModerators }}</p>
+            <h3 class="text-gray-600 text-sm font-semibold uppercase mb-2">Projects</h3>
+            <p class="text-3xl font-bold text-purple-600">{{ $totalProjects }}</p>
+            <p class="text-xs text-gray-500 mt-1">{{ $activeProjects }} active</p>
         </div>
         <div class="bg-white rounded-lg shadow p-6">
-            <h3 class="text-gray-600 text-sm font-semibold uppercase mb-2">Regular Users</h3>
-            <p class="text-3xl font-bold text-green-600">{{ $totalRegularUsers }}</p>
+            <h3 class="text-gray-600 text-sm font-semibold uppercase mb-2">Invitations</h3>
+            <p class="text-3xl font-bold text-yellow-600">{{ $totalInvitations }}</p>
+            <p class="text-xs text-gray-500 mt-1">{{ $pendingInvitations }} pending</p>
         </div>
     </div>
 

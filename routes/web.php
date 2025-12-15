@@ -5,6 +5,9 @@ use App\Http\Controllers\SkillPostController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\InvitationController;
+use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\MessageController;
+use App\Http\Controllers\OrgVerificationController;
 use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\Auth\PasswordResetController;
 use Illuminate\Http\Request;
@@ -155,6 +158,19 @@ Route::middleware(['web', \App\Http\Middleware\IsAdmin::class, 'auth'])->prefix(
     Route::get('/{user}', [AdminController::class, 'showUser'])->name('show');
     Route::patch('/{user}/toggle-role', [AdminController::class, 'toggleRole'])->name('toggle-role');
     Route::delete('/{user}', [AdminController::class, 'deleteUser'])->name('destroy');
+});
+
+// Organization verification routes
+Route::middleware(['auth'])->group(function () {
+    Route::get('/org-verification/create', [OrgVerificationController::class, 'create'])->name('org_verification.create');
+    Route::post('/org-verification', [OrgVerificationController::class, 'store'])->name('org_verification.store');
+});
+
+// Admin org verification routes
+Route::middleware(['auth', \App\Http\Middleware\IsAdmin::class])->prefix('admin')->group(function () {
+    Route::get('/org-verifications', [OrgVerificationController::class, 'index'])->name('admin.org_verifications.index');
+    Route::post('/org-verifications/{verification}/approve', [OrgVerificationController::class, 'approve'])->name('admin.org_verifications.approve');
+    Route::post('/org-verifications/{verification}/reject', [OrgVerificationController::class, 'reject'])->name('admin.org_verifications.reject');
 });
 
 // Temporary test route to verify server-side logout without the form (GET)

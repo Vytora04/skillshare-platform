@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\SkillPost;
+use App\Models\Project;
+use App\Models\Invitation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -17,11 +20,21 @@ class AdminController extends Controller
         
         $users = User::paginate(15);
         $totalUsers = User::count();
-        $totalAdmins = User::where('is_admin', true)->count();
-        $totalModerators = User::where('is_moderator', true)->count();
-        $totalRegularUsers = $totalUsers - $totalAdmins - $totalModerators;
+        $totalAdmins = User::whereJsonContains('roles', 'admin')->count();
+        $totalModerators = User::whereJsonContains('roles', 'moderator')->count();
+        $totalRegularUsers = $totalUsers - $totalAdmins;
+        
+        // Platform stats
+        $totalPosts = SkillPost::count();
+        $totalProjects = Project::count();
+        $totalInvitations = Invitation::count();
+        $pendingInvitations = Invitation::where('status', 'pending')->count();
+        $activeProjects = Project::where('status', 'active')->count();
 
-        return view('admin.dashboard', compact('users', 'totalUsers', 'totalAdmins', 'totalModerators', 'totalRegularUsers', 'currentUser'));
+        return view('admin.dashboard', compact(
+            'users', 'totalUsers', 'totalAdmins', 'totalModerators', 'totalRegularUsers', 'currentUser',
+            'totalPosts', 'totalProjects', 'totalInvitations', 'pendingInvitations', 'activeProjects'
+        ));
     }
 
     /**
