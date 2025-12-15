@@ -1,6 +1,6 @@
 @extends('layouts.auth')
 
-@section('title', 'Sign Up - SkillShare')
+@section('title', 'Sign Up - SkillBridge')
 
 @section('form-content')
 <div class="glass-box px-20 relative">

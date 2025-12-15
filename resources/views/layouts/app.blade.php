@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'SkillShare')</title>
+    <title>@yield('title', 'SkillBridge')</title>
     @vite('resources/css/app.css')
     <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
@@ -13,7 +13,7 @@
 
             {{-- Left Side: Logo & Links --}}
             <div class="flex gap-6 items-center">
-            <a href="{{ url('/') }}" class="text-2xl font-bold text-blue-600">SkillShare</a>
+            <a href="{{ url('/') }}" class="text-2xl font-bold text-blue-600">SkillBridge</a>
             <a href="{{ route('projects.index') }}" class="text-gray-700 hover:text-blue-600">Projects</a>
             <a href="{{ route('skill-posts.index') }}" class="text-gray-700 hover:text-blue-600">Skill Posts</a>
             
@@ -27,9 +27,9 @@
             <div class="flex items-center gap-4">
                 @auth
                     {{-- STATE 1: User is Logged In --}}
-                    <span class="text-gray-700 font-medium">
-                        Hello, {{ Auth::user()->name }}
-                    </span>
+                    <a href="{{ route('profile.show') }}" class="text-gray-700 hover:text-blue-600 font-medium">
+                        {{ Auth::user()->name }}
+                    </a>
 
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf

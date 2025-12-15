@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'SkillShare')</title>
+    <title>@yield('title', 'SkillBridge')</title>
     @vite('resources/css/app.css')
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <style>
@@ -20,7 +20,7 @@
             overflow: hidden;
         }
 
-        /* Blue gradient background matching SkillShare theme */
+        /* Blue gradient background matching SkillBridge theme */
         .auth-bg {
             background: linear-gradient(135deg, 
                 #1e40af 0%,     /* Deep blue */
@@ -234,7 +234,7 @@
             <div class="text-white space-y-6 max-w-xl">
                 <div class="flex items-center gap-3 mb-8">
                     <i class='bx bxs-hand-right text-6xl'></i>
-                    <h1 class="text-5xl font-bold">SkillShare</h1>
+                    <h1 class="text-5xl font-bold">SkillBridge</h1>
                 </div>
                 
                 <h2 class="text-5xl font-bold leading-tight">

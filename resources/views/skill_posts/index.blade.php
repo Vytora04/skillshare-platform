@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Skill Posts - SkillShare')
+@section('title', 'Skill Posts - SkillBridge')
 
 @section('content')
 <div class="bg-gray-50 min-h-screen">

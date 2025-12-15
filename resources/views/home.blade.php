@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'SkillShare for Social Impact')
+@section('title', 'SkillBridge for Social Impact')
 
 @section('content')
 <!-- Hero Section -->
@@ -30,7 +30,7 @@
 <!-- Features Section -->
 <section class="py-16 bg-gray-50">
     <div class="max-w-6xl mx-auto px-4 text-center">
-        <h2 class="text-3xl font-bold text-gray-800 mb-12">How SkillShare Works</h2>
+        <h2 class="text-3xl font-bold text-gray-800 mb-12">How SkillBridge Works</h2>
         <div class="grid md:grid-cols-3 gap-10">
             <div class="bg-white p-8 rounded-2xl shadow hover:shadow-lg transition">
                 <div class="text-blue-600 mb-4 text-5xl">🧑‍💼</div>
@@ -56,7 +56,7 @@
     <div class="max-w-6xl mx-auto text-center px-4">
         <h2 class="text-3xl font-bold mb-6 text-gray-800">Ready to Start Making an Impact?</h2>
         <p class="text-lg text-gray-600 mb-8">
-            Whether you want to offer your skills or find help for your project, SkillShare makes collaboration easy and meaningful.
+            Whether you want to offer your skills or find help for your project, SkillBridge makes collaboration easy and meaningful.
         </p>
         <a href="{{ route('register') }}"
            class="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold shadow hover:bg-blue-700 transition">
@@ -69,7 +69,7 @@
 <!-- Footer -->
 <footer class="bg-gray-900 text-gray-400 py-8">
     <div class="max-w-6xl mx-auto px-4 text-center">
-        <p>&copy; {{ date('Y') }} SkillShare for Social Impact. All rights reserved.</p>
+        <p>&copy; {{ date('Y') }} SkillBridge for Social Impact. All rights reserved.</p>
         <p class="text-sm text-gray-500 mt-2">Built with Laravel ❤️ to support SDG 17 – Partnerships for the Goals.</p>
     </div>
 </footer>

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', $skillPost->title . ' - SkillShare')
+@section('title', $skillPost->title . ' - SkillBridge')
 
 @section('content')
 <div class="bg-gray-50 min-h-screen">

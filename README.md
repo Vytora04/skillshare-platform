@@ -1,6 +1,6 @@
-# 🌍 SkillShare for Social Impact
+# 🌍 SkillBridge for Social Impact
 
-**SkillShare for Social Impact** is a Laravel-based web platform that connects **volunteers, students, NGOs, and community projects** to exchange skills and collaborate on social-impact initiatives — inspired by **SDG 17: Partnerships for the Goals**.
+**SkillBridge for Social Impact** is a Laravel-based web platform that connects **volunteers, students, NGOs, and community projects** to exchange skills and collaborate on social-impact initiatives — inspired by **SDG 17: Partnerships for the Goals**.
 
 The goal is to create a simple, searchable skill exchange system that helps smaller organizations access much-needed expertise without cost barriers.
 
@@ -66,8 +66,8 @@ resources/
 
 ### 1️⃣ Clone the Repository
 ```bash
-git clone https://github.com/Vytora04/skillshare-platform.git
-cd skillshare-platform
+git clone https://github.com/Vytora04/SkillBridge.git
+cd SkillBridge
 ```
 
 ### 2️⃣ Install Dependencies
@@ -87,7 +87,7 @@ Edit `.env` and update:
 DB_CONNECTION=sqlite
 # or
 DB_CONNECTION=mysql
-DB_DATABASE=skillshare
+DB_DATABASE=skillbridge
 DB_USERNAME=root
 DB_PASSWORD=
 ```

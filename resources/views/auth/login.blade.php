@@ -1,6 +1,6 @@
 @extends('layouts.auth')
 
-@section('title', 'Sign In - SkillShare')
+@section('title', 'Sign In - SkillBridge')
 
 @section('form-content')
 <div class="glass-box px-20 relative">
@@ -29,7 +29,7 @@
                 <input type="checkbox" name="remember">
                 Remember me
             </label>
-            <a href="#">Forgot password?</a>
+            <a href="{{ route('password.request') }}">Forgot password?</a>
         </div>
 
         <button type="submit" class="btn-submit">

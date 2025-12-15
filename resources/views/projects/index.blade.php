@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Projects - SkillShare')
+@section('title', 'Projects - SkillBridge')
 
 @section('content')
 <!-- Hero Section -->
