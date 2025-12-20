@@ -45,7 +45,7 @@
                         @endif
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm">
-                        <a href="{{ Storage::url($verification->document_path) }}" target="_blank" 
+                        <a href="{{ route('admin.org_verifications.show_document', $verification) }}" target="_blank" 
                            class="text-blue-600 hover:text-blue-900 mr-3">View Doc</a>
                         
                         @if($verification->status === 'pending')

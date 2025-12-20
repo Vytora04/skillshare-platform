@@ -23,5 +23,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Gate::policy(OrgVerification::class, OrgVerificationPolicy::class);
+        \Illuminate\Pagination\Paginator::useTailwind();
     }
 }

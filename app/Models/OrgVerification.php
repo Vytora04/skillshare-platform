@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class OrgVerification extends Model
 {
+    use HasFactory;
     protected $table = 'org_verification_documents';
 
     protected $fillable = [

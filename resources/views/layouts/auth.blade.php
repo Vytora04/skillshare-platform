@@ -6,6 +6,7 @@
     <title>@yield('title', 'SkillBridge')</title>
     @vite('resources/css/app.css')
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="icon" href="{{ asset('images/SkillBridge Logo.png') }}" type="image/png">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
         
@@ -17,32 +18,34 @@
         }
 
         body {
-            overflow: hidden;
+            overflow-x: hidden;
         }
 
-        /* Blue gradient background matching SkillBridge theme */
+        /* Green/Slate gradient background matching SkillBridge theme */
         .auth-bg {
             background: linear-gradient(135deg, 
-                #1e40af 0%,     /* Deep blue */
-                #3b82f6 35%,    /* Blue */
-                #60a5fa 70%,    /* Light blue */
-                #93c5fd 100%    /* Very light blue */
+                #020617 0%,     /* Slate 950 */
+                #0f172a 40%,    /* Slate 900 */
+                #115e59 80%,    /* Teal 800 */
+                #0d9488 100%    /* Teal 600 */
             );
             position: relative;
-            overflow: hidden;
+            min-height: 100vh;
+            width: 100%;
         }
 
         /* Animated gradient overlay */
         .auth-bg::before {
             content: '';
-            position: absolute;
+            position: fixed; /* Fixed so it stays while scrolling */
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: radial-gradient(circle at 30% 50%, rgba(59, 130, 246, 0.3) 0%, transparent 50%),
-                        radial-gradient(circle at 70% 80%, rgba(236, 72, 153, 0.3) 0%, transparent 50%);
+            background: radial-gradient(circle at 30% 50%, rgba(13, 148, 136, 0.2) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 80%, rgba(16, 185, 129, 0.2) 0%, transparent 50%);
             animation: gradientShift 10s ease infinite;
+            pointer-events: none;
         }
 
         @keyframes gradientShift {
@@ -52,17 +55,18 @@
 
         /* Decorative shapes */
         .shape {
-            position: absolute;
+            position: fixed; /* Fixed so they stay while scrolling */
             border-radius: 50%;
             filter: blur(60px);
             opacity: 0.6;
             animation: float 20s ease-in-out infinite;
+            z-index: 0;
         }
 
         .shape-1 {
             width: 300px;
             height: 300px;
-            background: rgba(59, 130, 246, 0.4);
+            background: rgba(13, 148, 136, 0.3); /* Teal */
             top: -100px;
             left: -100px;
         }
@@ -70,7 +74,7 @@
         .shape-2 {
             width: 400px;
             height: 400px;
-            background: rgba(236, 72, 153, 0.3);
+            background: rgba(16, 185, 129, 0.2); /* Emerald */
             bottom: -150px;
             right: -150px;
             animation-delay: -5s;
@@ -83,163 +87,225 @@
 
         /* Modern white form container */
         .glass-box {
-            background: #ffffff;
-            backdrop-filter: blur(10px);
-            border: none;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
-            width: 520px;
-            max-width: 90vw;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+            width: 500px;
+            max-width: 95vw;
+            min-height: 700px;
             border-radius: 24px;
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* Centered content vertically */
         }
 
-        /* Custom input styling */
-        .input-box {
+        /* Floating Label & New Input Styles */
+        .input-group {
             position: relative;
-            margin-bottom: 35px;
-            width: 100%;
-            max-width: 350px;
+            margin-bottom: 18px; /* Reduced gap to 18px */
+            max-width: 320px;
             margin-left: auto;
             margin-right: auto;
-        }
-        
-        .form-title {
-            color: #1f2937;
-            margin-bottom: 40px !important;
-        }
-
-        .input-box input {
             width: 100%;
-            background: rgba(59, 130, 246, 0.05);
-            border: 2px solid #e5e7eb;
-            border-radius: 10px;
+        }
+
+        .input-field {
+            width: 100%;
+            height: 50px; /* Explicit height for consistency */
+            padding: 0 16px 0 50px; /* Remove vertical padding, rely on height/line-height */
+            line-height: 46px; /* Vertically center text (50px - 4px border) */
+            font-size: 15px;
             color: #1f2937;
-            font-size: 16px;
-            padding: 14px 14px 14px 45px;
+            background: rgba(255, 255, 255, 0.7);
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
             outline: none;
-            transition: 0.3s;
+            transition: all 0.3s ease;
         }
 
-        .input-box input:focus {
-            border-color: #3b82f6;
+        .input-field:focus {
+            border-color: #0d9488;
             background: #ffffff;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+            box-shadow: 0 4px 12px rgba(13, 148, 136, 0.1);
         }
 
-        .input-box input::placeholder {
-            color: #9ca3af;
-        }
-
-        .input-box i {
+        .input-icon {
             position: absolute;
-            left: 15px;
-            top: 50%;
+            left: 16px;
+            top: 25px; /* Fixed center position relative to input height */
             transform: translateY(-50%);
             font-size: 20px;
-            color: #6b7280;
+            color: #94a3b8;
+            transition: color 0.3s ease;
+            pointer-events: none;
         }
 
-        /* Button styling */
-        .btn-submit {
-            width: 100%;
-            max-width: 350px;
-            height: 50px;
-            background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
-            border: none;
-            border-radius: 10px;
-            color: white;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
-            display: block;
-            margin: 0 auto;
+        .input-field:focus ~ .input-icon {
+            color: #0d9488;
         }
 
-        .btn-submit:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.5);
-            background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%);
-        }
-
-        /* Remember & Forgot styling */
-        .remember-forgot {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-            margin-top: 10px;
-            font-size: 14px;
-            max-width: 350px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .remember-forgot label {
-            display: flex;
-            align-items: center;
-            color: #4b5563;
-            cursor: pointer;
-        }
-
-        .remember-forgot input {
-            margin-right: 8px;
-            accent-color: #3b82f6;
-        }
-
-        .remember-forgot a {
-            color: #3b82f6;
-            text-decoration: none;
-            transition: 0.3s;
+        /* Floating Label */
+        .floating-label {
+            position: absolute;
+            left: 48px;
+            top: 25px; /* Fixed center position relative to input height */
+            transform: translateY(-50%);
+            background: transparent;
+            padding: 0 4px;
+            color: #64748b;
+            font-size: 15px;
+            pointer-events: none;
+            transition: all 0.3s ease;
             font-weight: 500;
         }
 
-        .remember-forgot a:hover {
-            color: #2563eb;
-            text-decoration: underline;
+        .input-field:focus ~ .floating-label,
+        .input-field:not(:placeholder-shown) ~ .floating-label {
+            top: 0;
+            left: 20px;
+            font-size: 12px;
+            color: #0d9488;
+            background: #ffffff;
+            padding: 0 8px;
+            border-radius: 4px;
+            transform: translateY(-50%);
+        }
+        
+        /* Password Strength Meter */
+        .strength-meter {
+            height: 4px;
+            width: 100%;
+            background: #e2e8f0;
+            margin-top: 8px;
+            border-radius: 2px;
+            overflow: hidden;
+            display: none;
         }
 
-        /* Register/Login link */
-        .logreg-link {
+        .strength-bar {
+            height: 100%;
+            width: 0;
+            transition: width 0.3s ease, background-color 0.3s ease;
+        }
+
+        /* Role Selection Cards */
+        .role-card-input {
+            display: none;
+        }
+
+        .role-wrapper {
+            margin-bottom: 24px;
+            max-width: 320px;
+            margin-left: auto;
+            margin-right: auto;
+            width: 100%;
+        }
+
+        .role-card {
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             text-align: center;
-            margin-top: 30px;
-            font-size: 14px;
-            color: #6b7280;
+            background: rgba(255, 255, 255, 0.7);
         }
 
-        .logreg-link a {
-            color: #3b82f6;
+        .role-card:hover {
+            border-color: #99f6e4;
+            background: #f0fdfa;
+        }
+
+        .role-card-input:checked + .role-card {
+            border-color: #0d9488;
+            background: #effcf9;
+            box-shadow: 0 4px 6px -1px rgba(13, 148, 136, 0.1);
+        }
+
+        .role-icon {
+            font-size: 28px;
+            color: #cbd5e1;
+            margin-bottom: 4px;
+            transition: color 0.3s;
+        }
+
+        .role-card-input:checked + .role-card .role-icon {
+            color: #0d9488;
+        }
+
+        .role-title {
             font-weight: 600;
-            text-decoration: none;
-            transition: 0.3s;
-        }
-
-        .logreg-link a:hover {
-            color: #2563eb;
-            text-decoration: underline;
+            color: #334155;
+            font-size: 13px;
         }
         
         .form-title {
-            color: #1f2937;
+            color: #0f172a;
+            position: relative;
+            padding-bottom: 4px; /* Tiny gap */
+        }
+
+        /* Centered Elements */
+        .remember-forgot, .btn-submit, .logreg-link {
+            max-width: 320px;
+            margin-left: auto;
+            margin-right: auto;
+            width: 100%;
+        }
+        
+        .remember-forgot {
+            margin-bottom: 24px; /* Space for checkbox */
+        }
+        
+        .btn-submit {
+            display: block;
+            margin-top: 10px;
+            letter-spacing: 0.5px;
+            box-shadow: 0 10px 15px -3px rgba(13, 148, 136, 0.3);
+            font-weight: 600;
+        }
+        
+        .logreg-link {
+            margin-top: 24px;
+            font-size: 14px;
+        }
+        
+        .logreg-link a {
+            color: #0d9488;
+            font-weight: 700;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .logreg-link a:hover {
+            color: #0f766e;
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
-    <div class="min-h-screen flex auth-bg">
+    <div class="min-h-screen flex flex-col lg:flex-row auth-bg relative">
         <div class="shape shape-1"></div>
         <div class="shape shape-2"></div>
         
         <!-- Left Side - Hero Section -->
-        <div class="hidden lg:flex lg:w-1/2 items-center justify-center relative z-10 px-16">
-            <div class="text-white space-y-6 max-w-xl">
+        <div class="hidden lg:flex lg:w-1/2 flex-col items-center justify-center relative z-10 px-16 min-h-screen">
+            <!-- Content Wrapper to restore pointer events -->
+            <div class="pointer-events-auto max-w-xl text-white space-y-6">
                 <div class="flex items-center gap-3 mb-8">
-                    <i class='bx bxs-hand-right text-6xl'></i>
+                    <img src="{{ asset('images/SkillBridge Logo.png') }}" alt="SkillBridge Logo" class="h-16 w-auto">
                     <h1 class="text-5xl font-bold">SkillBridge</h1>
                 </div>
                 
                 <h2 class="text-5xl font-bold leading-tight">
                     Welcome!<br>
-                    <span class="text-blue-200">To Our Platform.</span>
+                    <span class="text-teal-200">To Our Platform.</span>
                 </h2>
                 
                 <p class="text-lg text-white/90 leading-relaxed">
@@ -267,7 +333,7 @@
         </div>
 
         <!-- Right Side - Form Section -->
-        <div class="w-full lg:w-1/2 flex items-center justify-center relative z-10 p-8">
+        <div class="w-full lg:w-1/2 flex items-center justify-center relative z-10 py-12 px-4 sm:px-8">
             @yield('form-content')
         </div>
     </div>

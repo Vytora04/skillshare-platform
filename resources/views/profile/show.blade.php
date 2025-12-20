@@ -3,7 +3,7 @@
 @section('title', 'My Profile')
 
 @section('content')
-<div class="bg-gray-50 min-h-screen">
+<div class="bg-slate-50 min-h-screen">
     <div class="max-w-4xl mx-auto px-4 py-10">
         {{-- Success Message --}}
         @if(session('success'))
@@ -13,7 +13,7 @@
         @endif
 
         {{-- Profile Header --}}
-        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 mb-6">
             <div class="flex items-start justify-between">
                 <div class="flex items-start gap-4">
                     {{-- Avatar --}}
@@ -29,10 +29,19 @@
                     
                     {{-- User Info --}}
                     <div>
-                        <h1 class="text-3xl font-bold text-gray-900">{{ $user->name }}</h1>
-                        <p class="text-gray-600 mt-1">{{ $user->email }}</p>
+                        <h1 class="text-3xl font-bold text-slate-900 flex items-center">
+                            {{ $user->name }}
+                            @if($user->isVerifiedOrg())
+                                <span class="ml-2" title="Verified Organization">
+                                    <svg class="h-6 w-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                </span>
+                            @endif
+                        </h1>
+                        <p class="text-slate-600 mt-1">{{ $user->email }}</p>
                         @if($user->location)
-                            <p class="text-gray-600 mt-1">
+                            <p class="text-slate-600 mt-1">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline-block mr-1" viewBox="0 0 20 20" fill="currentColor">
                                     <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
                                 </svg>
@@ -40,7 +49,7 @@
                             </p>
                         @endif
                         @if($user->availability)
-                            <p class="text-gray-600 mt-1">
+                            <p class="text-slate-600 mt-1">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline-block mr-1" viewBox="0 0 20 20" fill="currentColor">
                                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd" />
                                 </svg>
@@ -50,7 +59,7 @@
                         <div class="mt-2 flex flex-wrap gap-2">
                             <span class="inline-flex items-center rounded-full px-3 py-1 text-sm font-semibold
                                 {{ $user->isAdmin() ? 'bg-red-100 text-red-800' : 
-                                   ($user->isModerator() ? 'bg-yellow-100 text-yellow-800' : 'bg-gray-100 text-gray-800') }}">
+                                   ($user->isModerator() ? 'bg-yellow-100 text-yellow-800' : 'bg-slate-100 text-slate-800') }}">
                                 {{ $user->getRole() }}
                             </span>
                             @if($user->isProvider())
@@ -75,7 +84,7 @@
                         Edit Profile
                     </a>
                     <a href="{{ route('profile.password.edit') }}" 
-                       class="inline-flex items-center px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition">
+                       class="inline-flex items-center px-4 py-2 bg-slate-600 text-white rounded-lg hover:bg-slate-700 transition">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
                         </svg>
@@ -87,16 +96,16 @@
 
         {{-- Bio Section --}}
         @if($user->bio)
-            <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
-                <h2 class="text-xl font-bold text-gray-900 mb-3">About</h2>
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 mb-6">
+                <h2 class="text-xl font-bold text-slate-900 mb-3">About</h2>
                 <p class="text-gray-700 leading-relaxed">{{ $user->bio }}</p>
             </div>
         @endif
 
         {{-- Skills Section --}}
         @if($user->skills && count($user->skills) > 0)
-            <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
-                <h2 class="text-xl font-bold text-gray-900 mb-3">Skills</h2>
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 mb-6">
+                <h2 class="text-xl font-bold text-slate-900 mb-3">Skills</h2>
                 <div class="flex flex-wrap gap-2">
                     @foreach($user->skills as $skill)
                         <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-50 text-blue-700 border border-blue-200">
@@ -108,16 +117,16 @@
         @endif
 
         {{-- Profile Information --}}
-        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
-            <h2 class="text-xl font-bold text-gray-900 mb-4">Contact & Links</h2>
+        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 mb-6">
+            <h2 class="text-xl font-bold text-slate-900 mb-4">Contact & Links</h2>
             <div class="space-y-4">
                 <div>
                     <label class="block text-sm font-medium text-gray-700">Name</label>
-                    <p class="mt-1 text-gray-900">{{ $user->name }}</p>
+                    <p class="mt-1 text-slate-900">{{ $user->name }}</p>
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700">Email</label>
-                    <p class="mt-1 text-gray-900">{{ $user->email }}</p>
+                    <p class="mt-1 text-slate-900">{{ $user->email }}</p>
                 </div>
                 @if($user->portfolio_url)
                     <div>
@@ -131,25 +140,25 @@
                 @endif
                 <div>
                     <label class="block text-sm font-medium text-gray-700">Member Since</label>
-                    <p class="mt-1 text-gray-900">{{ $user->created_at->format('F j, Y') }}</p>
+                    <p class="mt-1 text-slate-900">{{ $user->created_at->format('F j, Y') }}</p>
                 </div>
             </div>
         </div>
 
         {{-- Account Statistics --}}
-        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-            <h2 class="text-xl font-bold text-gray-900 mb-4">Account Statistics</h2>
+        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+            <h2 class="text-xl font-bold text-slate-900 mb-4">Account Statistics</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div class="bg-blue-50 p-4 rounded-lg">
-                    <p class="text-sm text-gray-600">Posts Created</p>
+                    <p class="text-sm text-slate-600">Posts Created</p>
                     <p class="text-2xl font-bold text-blue-600">{{ $user->skillPosts()->count() ?? 0 }}</p>
                 </div>
                 <div class="bg-green-50 p-4 rounded-lg">
-                    <p class="text-sm text-gray-600">Active Projects</p>
+                    <p class="text-sm text-slate-600">Active Projects</p>
                     <p class="text-2xl font-bold text-green-600">0</p>
                 </div>
                 <div class="bg-purple-50 p-4 rounded-lg">
-                    <p class="text-sm text-gray-600">Completed Projects</p>
+                    <p class="text-sm text-slate-600">Completed Projects</p>
                     <p class="text-2xl font-bold text-purple-600">0</p>
                 </div>
             </div>

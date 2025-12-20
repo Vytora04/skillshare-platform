@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\OrgVerification;
+use App\Notifications\OrgVerificationStatusUpdated;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -50,12 +51,12 @@ class OrgVerificationController extends Controller
         ]);
 
         // Store document
-        $path = $request->file('document')->store('org_verification_documents', 'public');
+        $path = $request->file('document')->store('org_verification_documents', 'local');
         $extension = $request->file('document')->getClientOriginalExtension();
 
         // Delete existing verification if any
         if ($user->orgVerification) {
-            Storage::disk('public')->delete($user->orgVerification->document_path);
+            Storage::disk('local')->delete($user->orgVerification->document_path);
             $user->orgVerification->delete();
         }
 
@@ -88,6 +89,16 @@ class OrgVerificationController extends Controller
     }
 
     /**
+     * Display the specified resource.
+     */
+    public function show(OrgVerification $verification)
+    {
+        $this->authorize('view', $verification);
+
+        return view('org_verification.show', compact('verification'));
+    }
+
+    /**
      * Admin: Approve verification
      */
     public function approve(OrgVerification $verification)
@@ -99,6 +110,8 @@ class OrgVerificationController extends Controller
             'reviewed_at' => now(),
             'reviewed_by' => Auth::id(),
         ]);
+
+        $verification->user->notify(new OrgVerificationStatusUpdated($verification));
 
         return redirect()->back()->with('success', 'Organization verified successfully!');
     }
@@ -121,6 +134,18 @@ class OrgVerificationController extends Controller
             'admin_notes' => $validated['admin_notes'],
         ]);
 
+        $verification->user->notify(new OrgVerificationStatusUpdated($verification));
+
         return redirect()->back()->with('success', 'Verification rejected.');
+    }
+
+    /**
+     * Show the verification document
+     */
+    public function showDocument(OrgVerification $verification)
+    {
+        $this->authorize('view', $verification);
+
+        return Storage::disk('local')->response($verification->document_path);
     }
 }

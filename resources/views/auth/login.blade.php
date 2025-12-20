@@ -3,43 +3,71 @@
 @section('title', 'Sign In - SkillBridge')
 
 @section('form-content')
-<div class="glass-box px-20 relative">
-    <a href="{{ url('/') }}" style="position: absolute; top: 35px; left: 35px;" class="flex items-center gap-1 text-gray-600 hover:text-gray-900 transition">
-        <i class='bx bx-arrow-back text-xl'></i>
+@section('form-content')
+<div class="glass-box px-12 py-12 relative w-full max-w-2xl mx-auto">
+    <a href="{{ url('/') }}" class="absolute top-6 left-6 flex items-center gap-1 text-slate-500 hover:text-teal-600 transition group">
+        <i class='bx bx-arrow-back text-xl group-hover:-translate-x-1 transition-transform'></i>
         <span class="text-sm font-medium">Back</span>
     </a>
-    <div style="padding-top: 80px; padding-bottom: 80px;">
-    <h2 class="text-4xl font-bold form-title text-center mb-10">Sign In</h2>
 
-    <form action="{{ route('login') }}" method="POST">
-        @csrf
-        
-        <div class="input-box">
-            <i class='bx bxs-envelope'></i>
-            <input type="email" name="email" placeholder="Email" required>
-        </div>
+    <div>
+        <h2 class="text-3xl font-bold form-title text-center mb-0 leading-tight">Welcome Back</h2>
+        <p class="text-center text-slate-500 mb-0">Sign in to continue your journey</p>
+        <div class="h-3"></div>
 
-        <div class="input-box">
-            <i class='bx bxs-lock-alt'></i>
-            <input type="password" name="password" placeholder="Password" required>
-        </div>
+        <form action="{{ route('login') }}" method="POST" class="">
+            @csrf
+            
+            <!-- Email -->
+            <div class="input-group">
+                <input type="email" name="email" id="email" class="input-field" placeholder=" " required autofocus>
+                <label for="email" class="floating-label">Email Address</label>
+                <i class='bx bx-envelope input-icon'></i>
+            </div>
 
-        <div class="remember-forgot">
-            <label>
-                <input type="checkbox" name="remember">
-                Remember me
-            </label>
-            <a href="{{ route('password.request') }}">Forgot password?</a>
-        </div>
+            <!-- Password -->
+            <div class="input-group">
+                <input type="password" name="password" id="password" class="input-field" placeholder=" " required>
+                <label for="password" class="floating-label">Password</label>
+                <i class='bx bx-lock-alt input-icon'></i>
+                <i class='bx bx-show absolute right-4 top-[25px] transform -translate-y-1/2 text-gray-400 cursor-pointer hover:text-teal-600 transition-colors text-xl toggle-password' data-target="password"></i>
+            </div>
 
-        <button type="submit" class="btn-submit">
-            Sign In
-        </button>
+            <div class="remember-forgot mt-2">
+                <div class="flex items-center gap-3">
+                    <input type="checkbox" name="remember" id="remember" class="w-4 h-4 text-teal-600 bg-gray-100 border-gray-300 rounded focus:ring-teal-500 focus:ring-2">
+                    <label for="remember" class="text-sm text-slate-600">Remember me</label>
+                </div>
+                <a href="{{ route('password.request') }}" class="text-sm font-medium text-teal-600 hover:text-teal-500">Forgot password?</a>
+            </div>
 
-        <div class="logreg-link">
-            <p>Don't have an account? <a href="{{ route('register') }}">Sign up</a></p>
-        </div>
-        </div>
+            <button type="submit" class="btn-submit shadow-lg hover:shadow-teal-500/30">
+                Sign In
+            </button>
+
+            <div class="logreg-link">
+                <p>Don't have an account? <a href="{{ route('register') }}">Sign up</a></p>
+            </div>
+        </form>
     </div>
+
+    <script>
+        document.querySelectorAll('.toggle-password').forEach(icon => {
+            icon.addEventListener('click', function() {
+                const targetId = this.getAttribute('data-target');
+                const input = document.getElementById(targetId);
+                
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    this.classList.remove('bx-show');
+                    this.classList.add('bx-hide');
+                } else {
+                    input.type = 'password';
+                    this.classList.remove('bx-hide');
+                    this.classList.add('bx-show');
+                }
+            });
+        });
+    </script>
 </div>
 @endsection

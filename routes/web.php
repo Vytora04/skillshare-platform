@@ -16,7 +16,98 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 
-Route::get('/skill-posts', [SkillPostController::class, 'index'])->name('skill-posts.index');
+// Skill Posts Route (Mock Data)
+Route::get('/skill-posts', function (Request $request) {
+    // 1. Generate Mock Data (24 items)
+    $skillPosts = collect();
+    $types = ['Offer', 'Need'];
+    $categories = ['Design', 'Development', 'Marketing', 'Writing', 'Translation', 'Mentorship'];
+    
+    for ($i = 1; $i <= 24; $i++) {
+        fake()->seed($i + 1000); // Distinct seed from projects
+        
+        $type = $types[array_rand($types)];
+        $category = $categories[$i % count($categories)];
+        
+        $skillPosts->push([
+            'id' => $i,
+            'title' => ($type === 'Offer' ? 'Offering: ' : 'Looking for: ') . fake()->jobTitle(),
+            'type' => $type,
+            'category' => $category,
+            // User Data
+            'user_name' => fake()->name(),
+            'user_avatar' => 'https://ui-avatars.com/api/?name=' . urlencode(fake()->name()) . '&background=random&color=fff',
+            'location' => fake()->city() . ', ' . fake()->country(),
+            'posted_ago' => rand(1, 14) . ' days ago',
+            'description' => fake()->paragraph(2),
+            // Badges
+            'is_verified' => rand(0, 1) === 1,
+            'response_rate' => rand(80, 100) . '%',
+        ]);
+    }
+
+    // 2. Filter Logic
+    
+    // Search
+    if ($search = $request->input('search')) {
+        $skillPosts = $skillPosts->filter(function ($item) use ($search) {
+            return stripos($item['title'], $search) !== false || 
+                   stripos($item['description'], $search) !== false ||
+                   stripos($item['user_name'], $search) !== false;
+        });
+    }
+
+    // Filter by Type
+    if ($type = $request->input('type')) {
+        if ($type !== 'All Types') {
+            $skillPosts = $skillPosts->where('type', $type);
+        }
+    }
+    
+    // Filter by Category
+    if ($category = $request->input('category')) {
+        if ($category !== 'All Categories') {
+            $skillPosts = $skillPosts->where('category', $category);
+        }
+    }
+
+    // 3. Sorting
+    $sort = $request->input('sort', 'newest');
+    
+    if ($sort === 'relevance') {
+        $skillPosts = $skillPosts->shuffle();
+    } else {
+        // Newest (Default) - Descending ID
+        $skillPosts = $skillPosts->sortByDesc('id');
+    }
+
+    // 4. Pagination
+    $perPage = $request->input('per_page', 6);
+    if (!in_array($perPage, [3, 6, 9, 12])) {
+        $perPage = 6; 
+    }
+
+    $currentPage = \Illuminate\Pagination\Paginator::resolveCurrentPage();
+    $currentItems = $skillPosts->slice(($currentPage - 1) * $perPage, $perPage)->all();
+    $paginatedPosts = new \Illuminate\Pagination\LengthAwarePaginator(
+        $currentItems, 
+        $skillPosts->count(), 
+        $perPage, 
+        $currentPage, 
+        ['path' => \Illuminate\Pagination\Paginator::resolveCurrentPath()]
+    );
+
+    $paginatedPosts->appends($request->all());
+
+    return view('skill_posts.index', [
+        'skillPosts' => $paginatedPosts,
+        'perPage' => $perPage,
+        'sortBy' => $sort,
+        'search' => $search,
+        'selectedType' => $type ?? 'All Types',
+        'selectedCategory' => $category ?? 'All Categories'
+    ]);
+})->name('skill-posts.index');
 // Create + Store (authenticated) - placed before the parameter route to avoid route conflicts
 Route::get('/skill-posts/create', [SkillPostController::class, 'create'])->name('skill-posts.create')->middleware('auth');
 Route::post('/skill-posts', [SkillPostController::class, 'store'])->name('skill-posts.store')->middleware('auth');
@@ -31,6 +122,40 @@ Route::get('/', function () {
 Route::get('/home', function () {
     return view('home');
 });
+
+Route::get('/about', function () {
+    return view('about');
+})->name('about');
+
+Route::get('/privacy', function () {
+    return view('privacy');
+})->name('privacy');
+
+Route::get('/terms', function () {
+    return view('terms');
+})->name('terms');
+
+Route::get('/mission', function () {
+    return view('mission');
+})->name('mission');
+
+Route::get('/ngos', function () {
+    return view('ngos');
+})->name('ngos');
+
+Route::get('/volunteers', function () {
+    return view('volunteers');
+})->name('volunteers');
+
+Route::get('/partners', function () {
+    return view('partners');
+})->name('partners');
+
+Route::view('/legal', 'legal')->name('legal');
+
+Route::get('/contact', function () {
+    return view('contact');
+})->name('contact');
 
 // Authentication routes (placeholder - will be replaced with proper auth)
 Route::get('/login', function () {
@@ -47,6 +172,7 @@ Route::post('/register', function (Request $request) {
         'name' => ['required', 'string', 'max:255'],
         'email' => ['required', 'email', 'max:255', 'unique:users,email'],
         'password' => ['required', 'string', 'min:8', 'confirmed'],
+        'role' => ['required', 'string', 'in:seeker,provider'],
     ]);
 
     // create user (password will be hashed automatically because of the cast in User model)
@@ -55,6 +181,7 @@ Route::post('/register', function (Request $request) {
         'email' => $data['email'],
         // Hash the password before storing it so Auth::attempt() works correctly
         'password' => Hash::make($data['password']),
+        'roles' => [$data['role']], // Assign selected role
     ]);
 
     // Redirect to login page instead of auto-signing in
@@ -145,8 +272,112 @@ Route::middleware('auth')->prefix('messages')->name('messages.')->group(function
 });
 
 // Projects routes
-Route::get('/projects', function () {
-    return view('projects.index');
+// Projects routes
+Route::get('/projects', function (Request $request) {
+    // 1. Generate Mock Data (24 items)
+    $projects = collect();
+    $categories = ['Education', 'Environment', 'Health', 'Technology', 'Community'];
+    $locations = ['Remote', 'On-Site', 'Hybrid'];
+    
+    for ($i = 1; $i <= 24; $i++) {
+        // Logic: Newer projects (higher ID) have more time. Older projects (lower ID) are expiring.
+        // ID 1 -> ~2 days. ID 24 -> ~29 days.
+        $daysLeft = max(1, min(30, intval(ceil($i * 1.2)))); 
+        
+        // Add subtle variation so it's not perfectly linear, but still deterministic
+        if ($i % 3 == 0) $daysLeft -= 1;
+        if ($i % 4 == 0) $daysLeft += 2;
+        $daysLeft = max(1, min(30, $daysLeft)); // Clamp again
+
+        // Deterministic seeding for fake data per iteration
+        fake()->seed($i);
+        
+        $projects->push([
+            'id' => $i,
+            'title' => 'Project ' . $i . ': ' . fake()->catchPhrase(), 
+            'ngo' => fake()->company(),
+            'category' => $categories[$i % count($categories)], // Deterministic category
+            'location' => $locations[$i % count($locations)],   // Deterministic location
+            'image_color' => fake()->hexColor(),
+            'sdg' => ($i % 17) + 1, // Deterministic SDG
+            'deadline' => $daysLeft . ' days left',
+            'days_left' => $daysLeft, 
+            'hours' => rand(2, 10) . ' hrs/week',
+            'description' => fake()->sentence(20),
+            'tags' => ['Volunteer', 'Social Impact', 'SkillBridge']
+        ]);
+    }
+
+    // 2. Handle Searching & Filtering
+    // Filter by Search Term
+    if ($search = $request->input('search')) {
+        $projects = $projects->filter(function ($item) use ($search) {
+            return stripos($item['title'], $search) !== false || 
+                   stripos($item['ngo'], $search) !== false ||
+                   stripos($item['description'], $search) !== false;
+        });
+    }
+
+    // Filter by Category
+    if ($category = $request->input('category')) {
+        if ($category !== 'All Categories') {
+            $projects = $projects->where('category', $category);
+        }
+    }
+
+    // Filter by Location
+    if ($location = $request->input('location')) {
+        if ($location !== 'Location' && $location !== 'All Locations') {
+            $projects = $projects->where('location', $location);
+        }
+    }
+
+    // Filter by Urgent (if requested via link)
+    if ($request->has('urgent')) {
+        $projects = $projects->filter(function($item) {
+             return intval($item['days_left']) < 10;
+        });
+    }
+
+    // 3. Handle Sorting
+    $sort = $request->input('sort', 'newest');
+    
+    if ($sort === 'deadline') {
+        $projects = $projects->sortBy('days_left'); 
+    } elseif ($sort === 'relevance') {
+        $projects = $projects->shuffle();
+    } else {
+        // Newest (Default)
+        $projects = $projects->sortByDesc('id');
+    }
+
+    // 4. Handle Pagination logic
+    $perPage = $request->input('per_page', 3); 
+    if (!in_array($perPage, [3, 6, 9])) {
+        $perPage = 3; 
+    }
+
+    $currentPage = \Illuminate\Pagination\Paginator::resolveCurrentPage();
+    $currentItems = $projects->slice(($currentPage - 1) * $perPage, $perPage)->all();
+    $paginatedProjects = new \Illuminate\Pagination\LengthAwarePaginator(
+        $currentItems, 
+        $projects->count(), 
+        $perPage, 
+        $currentPage, 
+        ['path' => \Illuminate\Pagination\Paginator::resolveCurrentPath()]
+    );
+
+    // Append all query params to pagination links so they persist
+    $paginatedProjects->appends($request->all());
+
+    return view('projects.index', [
+        'projects' => $paginatedProjects, 
+        'perPage' => $perPage, 
+        'sortBy' => $sort,
+        'search' => $search,
+        'selectedCategory' => $category ?? 'All Categories',
+        'selectedLocation' => $location ?? 'Location'
+    ]);
 })->name('projects.index');
 
 // Admin area (example) - protect with auth and IsAdmin middleware
@@ -164,11 +395,13 @@ Route::middleware(['web', \App\Http\Middleware\IsAdmin::class, 'auth'])->prefix(
 Route::middleware(['auth'])->group(function () {
     Route::get('/org-verification/create', [OrgVerificationController::class, 'create'])->name('org_verification.create');
     Route::post('/org-verification', [OrgVerificationController::class, 'store'])->name('org_verification.store');
+    Route::get('/org-verification/{verification}', [OrgVerificationController::class, 'show'])->name('org_verification.show');
 });
 
 // Admin org verification routes
 Route::middleware(['auth', \App\Http\Middleware\IsAdmin::class])->prefix('admin')->group(function () {
     Route::get('/org-verifications', [OrgVerificationController::class, 'index'])->name('admin.org_verifications.index');
+    Route::get('/org-verifications/{verification}/document', [OrgVerificationController::class, 'showDocument'])->name('admin.org_verifications.show_document');
     Route::post('/org-verifications/{verification}/approve', [OrgVerificationController::class, 'approve'])->name('admin.org_verifications.approve');
     Route::post('/org-verifications/{verification}/reject', [OrgVerificationController::class, 'reject'])->name('admin.org_verifications.reject');
 });
