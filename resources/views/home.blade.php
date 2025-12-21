@@ -24,13 +24,8 @@
                 </a>
             </div>
         </div>
-        <div class="hidden lg:block bg-teal-50 p-8 rounded-2xl">
-            <div class="w-full h-80 bg-teal-200 rounded-lg flex items-center justify-center">
-                 <svg xmlns="http://www.w3.org/2000/svg" class="h-24 w-24 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.356a1.76 1.76 0 013.417-.592V5.882z" />
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 5.882V19.24a1.76 1.76 0 003.417.592l2.147-6.356a1.76 1.76 0 00-3.417-.592V5.882z" />
-                </svg>
-            </div>
+        <div class="hidden lg:block">
+            <img src="{{ asset('images/Home Page/Cover.jpeg') }}" alt="SkillBridge Community" class="w-full h-auto rounded-2xl shadow-2xl hover:scale-105 transition-transform duration-300">
         </div>
     </div>
 </section>
@@ -70,7 +65,7 @@
         <!-- Step 1 -->
         <div class="grid lg:grid-cols-2 gap-12 items-center mb-16">
             <div class="bg-white dark:bg-slate-800 rounded-lg p-8">
-                 <div class="w-full h-64 bg-slate-100 dark:bg-slate-700 rounded-lg flex items-center text-slate-400">Placeholder Image</div>
+                 <img src="{{ asset('images/Home Page/1.jpg') }}" alt="Post Skill" class="w-full h-auto rounded-lg shadow-md hover:scale-105 transition-transform duration-300">
             </div>
             <div>
                 <span class="inline-block bg-teal-100 text-teal-800 text-xs font-semibold px-3 py-1 rounded-full mb-3">Step 1</span>
@@ -87,14 +82,14 @@
                 <p class="mt-4 text-gray-600 dark:text-slate-400">Our platform helps you find the right match based on skills and shared values. Send an invitation to start a conversation.</p>
             </div>
              <div class="bg-white dark:bg-slate-800 rounded-lg p-8">
-                 <div class="w-full h-64 bg-slate-100 dark:bg-slate-700 rounded-lg flex items-center text-slate-400">Placeholder Image</div>
+                 <img src="{{ asset('images/Home Page/2.jpg') }}" alt="Discover" class="w-full h-auto rounded-lg shadow-md hover:scale-105 transition-transform duration-300">
             </div>
         </div>
         
         <!-- Step 3 -->
         <div class="grid lg:grid-cols-2 gap-12 items-center">
             <div class="bg-white dark:bg-slate-800 rounded-lg p-8">
-                 <div class="w-full h-64 bg-slate-100 dark:bg-slate-700 rounded-lg flex items-center text-slate-400">Placeholder Image</div>
+                 <img src="{{ asset('images/Home Page/3.jpg') }}" alt="Collaborate" class="w-full h-auto rounded-lg shadow-md hover:scale-105 transition-transform duration-300">
             </div>
             <div>
                 <span class="inline-block bg-teal-100 text-teal-800 text-xs font-semibold px-3 py-1 rounded-full mb-3">Step 3</span>

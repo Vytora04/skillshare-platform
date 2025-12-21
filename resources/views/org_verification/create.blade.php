@@ -58,7 +58,7 @@
                     <div class="mb-4">
                         <label for="organization_name" class="block text-gray-700 font-semibold mb-2">Organization Name *</label>
                         <input type="text" id="organization_name" name="organization_name" value="{{ old('organization_name') }}" 
-                               class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                               class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500" required>
                         @error('organization_name')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
@@ -67,7 +67,7 @@
                     <div class="mb-4">
                         <label for="organization_description" class="block text-gray-700 font-semibold mb-2">Organization Description</label>
                         <textarea id="organization_description" name="organization_description" rows="4" 
-                                  class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">{{ old('organization_description') }}</textarea>
+                                  class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500">{{ old('organization_description') }}</textarea>
                         @error('organization_description')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
@@ -77,13 +77,13 @@
                         <label for="document" class="block text-gray-700 font-semibold mb-2">Verification Document *</label>
                         <p class="text-sm text-gray-600 mb-2">Upload official documentation (business license, registration certificate, etc.). Max 5MB. Accepted: PDF, JPG, PNG</p>
                         <input type="file" id="document" name="document" accept=".pdf,.jpg,.jpeg,.png" 
-                               class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                               class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500" required>
                         @error('document')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
 
-                    <button type="submit" class="w-full bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 font-semibold">
+                    <button type="submit" class="w-full bg-teal-600 text-white px-6 py-3 rounded-lg hover:bg-teal-700 font-semibold">
                         Submit Verification Request
                     </button>
                 </form>

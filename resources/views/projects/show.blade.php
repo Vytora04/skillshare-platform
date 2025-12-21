@@ -11,7 +11,7 @@
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
                 <div>
                     <div class="flex items-center gap-3 mb-2">
-                        <span class="px-3 py-1 text-xs font-semibold bg-blue-100 text-blue-700 rounded-full dark:bg-blue-900 dark:text-blue-300">In Progress</span>
+                        <span class="px-3 py-1 text-xs font-semibold bg-teal-100 text-teal-700 rounded-full dark:bg-teal-900 dark:text-teal-300">In Progress</span>
                         <span class="text-slate-500 dark:text-slate-400 text-sm">Started Oct 24, 2025</span>
                     </div>
                     <h1 class="text-3xl font-bold text-slate-800 dark:text-white">Literacy App Development</h1>
@@ -76,7 +76,7 @@
                             <h3 class="text-xl font-bold text-slate-800 dark:text-white">Phase 2: Core Development</h3>
                             <p class="text-slate-500 dark:text-slate-400 text-sm mt-1">Due: Dec 25, 2025</p>
                         </div>
-                        <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800">Current Focus</span>
+                        <span class="bg-emerald-100 text-emerald-800 text-xs font-semibold px-2.5 py-0.5 rounded dark:bg-emerald-200 dark:text-emerald-800">Current Focus</span>
                     </div>
 
                     <div class="space-y-3">

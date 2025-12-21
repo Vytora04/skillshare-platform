@@ -85,7 +85,7 @@ class OrgVerificationController extends Controller
             ->latest()
             ->paginate(20);
 
-        return view('admin.org_verifications.index', compact('verifications'));
+        return view('staff.org_verifications.index', compact('verifications'));
     }
 
     /**

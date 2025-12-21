@@ -28,7 +28,7 @@
                             <div class="flex items-start justify-between mb-2">
                                 <div class="flex-1">
                                     <h3 class="font-semibold text-gray-900">
-                                        <a href="{{ route('skill-posts.show', $invitation->skillPost->id) }}" class="hover:text-blue-600">
+                                        <a href="{{ route('skill-posts.show', $invitation->skillPost->id) }}" class="hover:text-teal-600">
                                             {{ $invitation->skillPost->title }}
                                         </a>
                                     </h3>
@@ -41,7 +41,7 @@
                                 </div>
                                 
                                 <span class="inline-flex items-center px-2 py-1 rounded text-xs font-semibold
-                                    {{ $invitation->type === 'invite' ? 'bg-purple-100 text-purple-800' : 'bg-blue-100 text-blue-800' }}">
+                                    {{ $invitation->type === 'invite' ? 'bg-purple-100 text-purple-800' : 'bg-teal-100 text-teal-800' }}">
                                     {{ strtoupper($invitation->type) }}
                                 </span>
                             </div>
@@ -93,7 +93,7 @@
                             <div class="flex items-start justify-between mb-2">
                                 <div class="flex-1">
                                     <h3 class="font-semibold text-gray-900">
-                                        <a href="{{ route('skill-posts.show', $invitation->skillPost->id) }}" class="hover:text-blue-600">
+                                        <a href="{{ route('skill-posts.show', $invitation->skillPost->id) }}" class="hover:text-teal-600">
                                             {{ $invitation->skillPost->title }}
                                         </a>
                                     </h3>
@@ -106,7 +106,7 @@
                                 </div>
                                 
                                 <span class="inline-flex items-center px-2 py-1 rounded text-xs font-semibold
-                                    {{ $invitation->type === 'invite' ? 'bg-purple-100 text-purple-800' : 'bg-blue-100 text-blue-800' }}">
+                                    {{ $invitation->type === 'invite' ? 'bg-purple-100 text-purple-800' : 'bg-teal-100 text-teal-800' }}">
                                     {{ strtoupper($invitation->type) }}
                                 </span>
                             </div>

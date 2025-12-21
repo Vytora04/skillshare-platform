@@ -4,7 +4,7 @@
 
 @section('form-content')
 @section('form-content')
-<div class="glass-box px-12 py-12 relative w-full max-w-2xl mx-auto">
+<div class="glass-box px-8 py-10 relative w-full max-w-[400px] mx-auto" style="min-height: 450px;">
     <a href="{{ url('/') }}" class="absolute top-6 left-6 flex items-center gap-1 text-slate-500 hover:text-teal-600 transition group">
         <i class='bx bx-arrow-back text-xl group-hover:-translate-x-1 transition-transform'></i>
         <span class="text-sm font-medium">Back</span>
@@ -13,7 +13,7 @@
     <div>
         <h2 class="text-3xl font-bold form-title text-center mb-0 leading-tight">Welcome Back</h2>
         <p class="text-center text-slate-500 mb-0">Sign in to continue your journey</p>
-        <div class="h-3"></div>
+        <div class="h-6"></div>
 
         <form action="{{ route('login') }}" method="POST" class="">
             @csrf

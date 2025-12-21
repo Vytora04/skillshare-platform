@@ -45,11 +45,11 @@
                         @endif
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm">
-                        <a href="{{ route('admin.org_verifications.show_document', $verification) }}" target="_blank" 
-                           class="text-blue-600 hover:text-blue-900 mr-3">View Doc</a>
+                        <a href="{{ route('staff.org_verifications.show_document', $verification) }}" target="_blank" 
+                           class="text-emerald-600 hover:text-emerald-900 mr-3">View Doc</a>
                         
                         @if($verification->status === 'pending')
-                            <form action="{{ route('admin.org_verifications.approve', $verification) }}" method="POST" class="inline">
+                            <form action="{{ route('staff.org_verifications.approve', $verification) }}" method="POST" class="inline">
                                 @csrf
                                 <button type="submit" class="text-green-600 hover:text-green-900 mr-3">Approve</button>
                             </form>
@@ -82,7 +82,7 @@
             <div class="mb-4">
                 <label for="admin_notes" class="block text-gray-700 font-semibold mb-2">Reason for Rejection *</label>
                 <textarea id="admin_notes" name="admin_notes" rows="4" required
-                          class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                          class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"></textarea>
             </div>
             <div class="flex justify-end space-x-3">
                 <button type="button" onclick="closeRejectModal()" 
@@ -97,7 +97,7 @@
 function showRejectModal(verificationId) {
     const modal = document.getElementById('rejectModal');
     const form = document.getElementById('rejectForm');
-    form.action = `/admin/org-verifications/${verificationId}/reject`;
+    form.action = `/staff/org-verifications/${verificationId}/reject`;
     modal.classList.remove('hidden');
 }
 

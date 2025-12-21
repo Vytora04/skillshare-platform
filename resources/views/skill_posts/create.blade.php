@@ -60,7 +60,7 @@
                         <label class="inline-flex items-center">
                             <input type="checkbox" name="tags[]" value="{{ $tag->id }}" 
                                 {{ in_array($tag->id, old('tags', [])) ? 'checked' : '' }}
-                                class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                                class="rounded border-gray-300 text-teal-600 focus:ring-teal-500">
                             <span class="ml-1 text-sm">{{ $tag->name }}</span>
                         </label>
                     @endforeach
@@ -80,7 +80,7 @@
         </div>
 
         <div class="flex justify-end">
-            <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded">Create Post</button>
+            <button type="submit" class="bg-teal-600 text-white px-6 py-2 rounded hover:bg-teal-700">Create Post</button>
         </div>
     </form>
 </div>

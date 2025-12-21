@@ -25,30 +25,30 @@
                 @auth
                     <a href="{{ route('invitations.index') }}" class="text-gray-700 hover:text-teal-600 dark:text-gray-300 dark:hover:text-white">Invitations</a>
                 @endauth
-            
-                {{-- Staff Panel Link (visible to admins and moderators) --}}
-                @auth
-                    @if(Auth::user()->isStaff())
-                        <a href="{{ route('admin.dashboard') }}" class="text-gray-700 hover:text-teal-600 dark:text-gray-300 dark:hover:text-white font-semibold">Staff Panel</a>
-                    @endif
-                @endauth
             </div>
 
             {{-- Right Side: Authentication Logic --}}
             <div class="flex items-center gap-4">
                 @auth
+                    {{-- Staff Panel Link (Admin/Mod Only) --}}
+                    @if(Auth::user()->isStaff())
+                        <a href="{{ route('staff.dashboard') }}" class="text-gray-700 hover:text-teal-600 dark:text-gray-300 dark:hover:text-white font-medium">Staff Panel</a>
+                    @endif
+
+                    {{-- Dashboard Link (All Users) --}}
+                    <a href="{{ route('dashboard') }}" class="text-gray-700 hover:text-teal-600 dark:text-gray-300 dark:hover:text-white font-medium">Dashboard</a>
+
                     {{-- STATE 1: User is Logged In --}}
-                    <a href="{{ route('profile.show') }}" class="text-gray-700 hover:text-teal-600 dark:text-gray-300 dark:hover:text-white font-medium">
+                    <a href="{{ route('profile.show') }}" class="bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-teal-700 dark:text-teal-400 px-4 py-2 rounded-full font-bold transition">
                         {{ Auth::user()->name }}
                     </a>
-
+                    
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
                         <button type="submit" class="text-red-500 hover:text-red-700 dark:hover:text-red-400 font-semibold ml-4">
                             Log Out
                         </button>
                     </form>
-
                 @else
                     {{-- STATE 2: User is NOT Logged In (Show the nice buttons here) --}}
                     <a href="{{ route('login') }}" class="border border-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:border-teal-600 hover:text-teal-600 dark:border-gray-600 dark:text-gray-300 dark:hover:border-teal-500 dark:hover:text-teal-500 transition">

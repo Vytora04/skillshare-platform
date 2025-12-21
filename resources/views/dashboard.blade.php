@@ -9,15 +9,23 @@
         <!-- Welcome Section -->
         <div class="mb-8 flex justify-between items-end">
             <div>
-                <h1 class="text-3xl font-bold text-slate-800 dark:text-white">Welcome back, {{ Auth::user()->name }}! 👋</h1>
+                <div class="flex items-center gap-3">
+                    <h1 class="text-3xl font-bold text-slate-800 dark:text-white">Welcome back, {{ Auth::user()->name }}! 👋</h1>
+                    <span class="px-3 py-1 text-xs font-semibold rounded-full 
+                        {{ Auth::user()->hasRole('provider') ? 'bg-emerald-100 text-emerald-700' : 'bg-teal-100 text-teal-700' }}">
+                        {{ Auth::user()->hasRole('provider') ? 'Provider' : 'Seeker' }}
+                    </span>
+                </div>
                 <p class="text-slate-600 dark:text-slate-400 mt-2">Here's what's happening with your impact journey.</p>
             </div>
+            @if(Auth::user()->hasRole('provider'))
             <a href="{{ route('skill-posts.create') }}" class="bg-teal-600 hover:bg-teal-700 text-white px-6 py-2.5 rounded-lg font-semibold shadow-lg transition flex items-center gap-2">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                     <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
                 </svg>
                 New Post
             </a>
+            @endif
         </div>
 
         <!-- Stats Grid -->
@@ -38,7 +46,7 @@
             
             <div class="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-sm border border-slate-100 dark:border-slate-700">
                 <div class="flex items-center gap-4">
-                    <div class="p-3 bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400 rounded-lg">
+                    <div class="p-3 bg-emerald-100 dark:bg-emerald-900/50 text-emerald-600 dark:text-emerald-400 rounded-lg">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>

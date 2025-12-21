@@ -109,8 +109,9 @@ Route::get('/skill-posts', function (Request $request) {
     ]);
 })->name('skill-posts.index');
 // Create + Store (authenticated) - placed before the parameter route to avoid route conflicts
-Route::get('/skill-posts/create', [SkillPostController::class, 'create'])->name('skill-posts.create')->middleware('auth');
-Route::post('/skill-posts', [SkillPostController::class, 'store'])->name('skill-posts.store')->middleware('auth');
+// Create + Store (authenticated) - placed before the parameter route to avoid route conflicts
+Route::get('/skill-posts/create', [SkillPostController::class, 'create'])->name('skill-posts.create')->middleware(['auth', 'role:provider']);
+Route::post('/skill-posts', [SkillPostController::class, 'store'])->name('skill-posts.store')->middleware(['auth', 'role:provider']);
 Route::get('/skill-posts/{skillPost}', [SkillPostController::class, 'show'])->name('skill-posts.show');
 Route::delete('/skill-posts/{skillPost}', [SkillPostController::class, 'destroy'])->name('skill-posts.destroy')->middleware(['auth', \App\Http\Middleware\IsModerator::class]);
 
@@ -188,7 +189,7 @@ Route::post('/register', function (Request $request) {
     return redirect()->route('login')->with('success', 'Account created successfully! Please sign in.');
 });
 
-// ... existing code ...
+// ... (omitted lines) ...
 
 // 1. Handle the Login Form Submission
 Route::post('/login', function (Request $request) {
@@ -202,8 +203,8 @@ Route::post('/login', function (Request $request) {
     if (Auth::attempt($credentials)) {
         $request->session()->regenerate();
 
-        // Redirect to home upon success
-        return redirect()->intended('home');
+        // Redirect to dashboard upon success
+        return redirect()->intended('dashboard');
     }
 
     // If login fails, go back with an error
@@ -380,11 +381,11 @@ Route::get('/projects', function (Request $request) {
     ]);
 })->name('projects.index');
 
-// Admin area (example) - protect with auth and IsAdmin middleware
-Route::get('/admin', [AdminController::class, 'dashboard'])->middleware([\App\Http\Middleware\IsAdmin::class, 'auth'])->name('admin.dashboard');
+// Admin area - protect with auth and IsStaff middleware
+Route::get('/staff', [AdminController::class, 'dashboard'])->middleware([\App\Http\Middleware\IsStaff::class, 'auth'])->name('staff.dashboard');
 
 // Admin user management routes
-Route::middleware(['web', \App\Http\Middleware\IsAdmin::class, 'auth'])->prefix('admin/users')->name('admin.users.')->group(function () {
+Route::middleware(['web', \App\Http\Middleware\IsStaff::class, 'auth'])->prefix('staff/users')->name('staff.users.')->group(function () {
     Route::get('/', [AdminController::class, 'listUsers'])->name('index');
     Route::get('/{user}', [AdminController::class, 'showUser'])->name('show');
     Route::patch('/{user}/toggle-role', [AdminController::class, 'toggleRole'])->name('toggle-role');
@@ -398,12 +399,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/org-verification/{verification}', [OrgVerificationController::class, 'show'])->name('org_verification.show');
 });
 
-// Admin org verification routes
-Route::middleware(['auth', \App\Http\Middleware\IsAdmin::class])->prefix('admin')->group(function () {
-    Route::get('/org-verifications', [OrgVerificationController::class, 'index'])->name('admin.org_verifications.index');
-    Route::get('/org-verifications/{verification}/document', [OrgVerificationController::class, 'showDocument'])->name('admin.org_verifications.show_document');
-    Route::post('/org-verifications/{verification}/approve', [OrgVerificationController::class, 'approve'])->name('admin.org_verifications.approve');
-    Route::post('/org-verifications/{verification}/reject', [OrgVerificationController::class, 'reject'])->name('admin.org_verifications.reject');
+// Staff org verification routes
+Route::middleware(['auth', \App\Http\Middleware\IsStaff::class])->prefix('staff')->group(function () {
+    Route::get('/org-verifications', [OrgVerificationController::class, 'index'])->name('staff.org_verifications.index');
+    Route::get('/org-verifications/{verification}/document', [OrgVerificationController::class, 'showDocument'])->name('staff.org_verifications.show_document');
+    Route::post('/org-verifications/{verification}/approve', [OrgVerificationController::class, 'approve'])->name('staff.org_verifications.approve');
+    Route::post('/org-verifications/{verification}/reject', [OrgVerificationController::class, 'reject'])->name('staff.org_verifications.reject');
 });
 
 // Temporary test route to verify server-side logout without the form (GET)

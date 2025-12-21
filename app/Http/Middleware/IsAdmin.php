@@ -15,8 +15,8 @@ class IsAdmin
     {
         $user = Auth::user();
 
-        if (!$user || !$user->isStaff()) {
-            abort(403, 'Unauthorized. Admin or Moderator privileges required.');
+        if (!$user || !$user->isAdmin()) {
+            abort(403, 'Unauthorized. Admin privileges required.');
         }
 
         return $next($request);

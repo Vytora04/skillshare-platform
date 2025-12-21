@@ -31,9 +31,12 @@ class AdminController extends Controller
         $pendingInvitations = Invitation::where('status', 'pending')->count();
         $activeProjects = Project::where('status', 'active')->count();
 
-        return view('admin.dashboard', compact(
+        // Recent content for moderation
+        $recentPosts = SkillPost::with('user')->latest()->take(10)->get();
+
+        return view('staff.dashboard', compact(
             'users', 'totalUsers', 'totalAdmins', 'totalModerators', 'totalRegularUsers', 'currentUser',
-            'totalPosts', 'totalProjects', 'totalInvitations', 'pendingInvitations', 'activeProjects'
+            'totalPosts', 'totalProjects', 'totalInvitations', 'pendingInvitations', 'activeProjects', 'recentPosts'
         ));
     }
 
@@ -49,29 +52,29 @@ class AdminController extends Controller
             return back()->with('error', 'You cannot change your own role.');
         }
 
-        // ADMIN RULES: Can only delete posts, cannot manage admin/moderator roles
-        if ($currentUser->isAdmin() && !$currentUser->isModerator()) {
-            return back()->with('error', 'Admins can only delete posts, not manage user roles.');
-        }
-
-        // MODERATOR RULES
-        if ($currentUser->isModerator()) {
-            // Cannot remove moderator status from another moderator
-            if ($target->isModerator()) {
-                return back()->with('error', 'You cannot change another moderator\'s role.');
-            }
-
+        // ADMIN RULES: Admins can manage everything, including moderators
+        if ($currentUser->isAdmin()) {
             // Can make someone a moderator
-            if ($target->isAdmin()) {
-                $target->makeUser();
-                return back()->with('success', ucfirst($target->name) . ' is now a regular user.');
-            }
-
-            // Can make a regular user a moderator
             if ($target->isUser()) {
                 $target->makeModerator();
                 return back()->with('success', ucfirst($target->name) . ' is now a moderator.');
             }
+
+            // Can remove moderator status
+            if ($target->isModerator()) {
+                $target->makeUser();
+                return back()->with('success', ucfirst($target->name) . ' is now a regular user.');
+            }
+            
+            // CANNOT modify other admins (security precaution usually, but let's allow viewing)
+            if ($target->isAdmin()) {
+                 return back()->with('error', 'You cannot modify another super admin directly.');
+            }
+        }
+
+        // MODERATOR RULES: Moderators CANNOT change roles
+        if ($currentUser->isModerator() && !$currentUser->isAdmin()) {
+            return back()->with('error', 'Moderators cannot manage user roles.');
         }
 
         return back()->with('error', 'Unauthorized action.');
@@ -83,7 +86,7 @@ class AdminController extends Controller
     public function listUsers()
     {
         $users = User::paginate(20);
-        return view('admin.users.index', compact('users'));
+        return view('staff.users.index', compact('users'));
     }
 
     /**
@@ -91,7 +94,7 @@ class AdminController extends Controller
      */
     public function showUser(User $user)
     {
-        return view('admin.users.show', compact('user'));
+        return view('staff.users.show', compact('user'));
     }
 
     /**
@@ -106,9 +109,9 @@ class AdminController extends Controller
             return back()->with('error', 'You cannot delete your own account.');
         }
 
-        // Only admins and moderators can delete users
-        if (!$currentUser->isStaff()) {
-            return back()->with('error', 'Only staff can delete users.');
+        // Only admins can delete users
+        if (!$currentUser->isAdmin()) {
+            return back()->with('error', 'Only admins can delete users.');
         }
 
         $userName = $user->name;

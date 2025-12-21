@@ -297,23 +297,24 @@
         <!-- Left Side - Hero Section -->
         <div class="hidden lg:flex lg:w-1/2 flex-col items-center justify-center relative z-10 px-16 min-h-screen">
             <!-- Content Wrapper to restore pointer events -->
-            <div class="pointer-events-auto max-w-xl text-white space-y-6">
+            <!-- Content Wrapper to restore pointer events -->
+            <div class="pointer-events-auto max-w-xl text-white">
                 <div class="flex items-center gap-3 mb-8">
                     <img src="{{ asset('images/SkillBridge Logo.png') }}" alt="SkillBridge Logo" class="h-16 w-auto">
-                    <h1 class="text-5xl font-bold">SkillBridge</h1>
+                    <h1 class="text-5xl font-bold text-teal-400">SkillBridge</h1>
                 </div>
                 
-                <h2 class="text-5xl font-bold leading-tight">
+                <h2 class="text-5xl font-bold leading-tight mb-6">
                     Welcome!<br>
                     <span class="text-teal-200">To Our Platform.</span>
                 </h2>
                 
-                <p class="text-lg text-white/90 leading-relaxed">
+                <p class="text-lg text-white/90 leading-relaxed mb-8">
                     Connect with changemakers, NGOs, and volunteers to collaborate on social-impact projects that matter.
                 </p>
                 
                 <!-- Social Icons -->
-                <div class="flex gap-4 pt-6">
+                <div class="flex gap-4 mt-20">
                     <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="w-12 h-12 flex items-center justify-center rounded-full bg-white/20 hover:bg-white/30 transition-all duration-300 hover:scale-110">
                         <i class='bx bxl-linkedin text-2xl'></i>
                     </a>

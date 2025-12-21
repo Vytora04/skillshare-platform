@@ -42,7 +42,7 @@
                         Verification Document
                     </dt>
                     <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                        <a href="{{ route('admin.org_verifications.show_document', $verification) }}" target="_blank" class="text-blue-600 hover:text-blue-900">View Document</a>
+                        <a href="{{ route('staff.org_verifications.show_document', $verification) }}" target="_blank" class="text-teal-600 hover:text-teal-900">View Document</a>
                     </dd>
                 </div>
                 @if($verification->isRejected())

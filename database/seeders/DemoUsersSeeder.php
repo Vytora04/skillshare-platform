@@ -13,35 +13,57 @@ class DemoUsersSeeder extends Seeder
      */
     public function run(): void
     {
-        // Moderator with all roles
+        // 1. Admin
         User::create([
-            'name' => 'Moderator Demo',
-            'email' => 'moderator@skillbridge.test',
+            'name' => 'Admin User',
+            'email' => 'admin@skillbridge.com',
             'password' => Hash::make('password'),
             'email_verified_at' => now(),
-            'roles' => ['admin', 'moderator', 'provider', 'seeker', 'org_rep'],
-            'bio' => 'Platform moderator with full access to all features.',
-            'skills' => ['Web Development', 'Content Moderation', 'Project Management'],
-            'portfolio_url' => 'https://github.com/moderator',
-            'location' => 'Jakarta, Indonesia',
-            'availability' => 'Full-time',
+            'roles' => ['admin'],
+            'is_admin' => true, // Ensure legacy flag is set just in case
+            'bio' => 'System Administrator',
+            'location' => 'HQ',
         ]);
 
-        // Regular user
+        // 2. Moderator
         User::create([
-            'name' => 'Regular User',
-            'email' => 'user@skillbridge.test',
+            'name' => 'Moderator User',
+            'email' => 'moderator@skillbridge.com',
             'password' => Hash::make('password'),
             'email_verified_at' => now(),
-            'roles' => ['provider', 'seeker'],
-            'bio' => 'Regular user looking to collaborate on social impact projects.',
-            'skills' => ['Graphic Design', 'Social Media'],
-            'location' => 'Bandung, Indonesia',
-            'availability' => 'Part-time',
+            'roles' => ['moderator'],
+            'is_moderator' => true,
+            'bio' => 'Community Moderator',
+            'location' => 'Remote',
         ]);
 
-        $this->command->info('✅ Created 2 demo users (password: password)');
-        $this->command->info('   - moderator@skillbridge.test (All roles - Admin, Moderator, Provider, Seeker, Org Rep)');
-        $this->command->info('   - user@skillbridge.test (Provider + Seeker)');
+        // 3. Provider
+        User::create([
+            'name' => 'Provider User',
+            'email' => 'provider@skillbridge.com',
+            'password' => Hash::make('password'),
+            'email_verified_at' => now(),
+            'roles' => ['provider'],
+            'bio' => 'Professional Web Developer offering skills.',
+            'skills' => ['Laravel', 'Vue.js', 'Tailwind CSS'],
+            'location' => 'Jakarta',
+        ]);
+
+        // 4. Seeker
+        User::create([
+            'name' => 'Seeker User',
+            'email' => 'seeker@skillbridge.com',
+            'password' => Hash::make('password'),
+            'email_verified_at' => now(),
+            'roles' => ['seeker'],
+            'bio' => 'Non-profit organization looking for talent.',
+            'location' => 'Bali',
+        ]);
+
+        $this->command->info('✅ Created 4 demo users (password: password)');
+        $this->command->info('   - admin@skillbridge.com (Role: Admin)');
+        $this->command->info('   - moderator@skillbridge.com (Role: Moderator)');
+        $this->command->info('   - provider@skillbridge.com (Role: Provider)');
+        $this->command->info('   - seeker@skillbridge.com (Role: Seeker)');
     }
 }
